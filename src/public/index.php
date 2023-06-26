@@ -1,34 +1,8 @@
 <?php
 require_once('../../vendor/autoload.php');
-?>
 
+use App\Router;
 
-<!DOCTYPE html>
-<html lang="en">
+$app = new Router;
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
-
-    <title>Document</title>
-</head>
-
-<body>
-
-
-
-
-
-
-    <?php
-
-
-
-
-    ?>
-
-    <script src="./bootstrap/js/bootstrap.min.js"></script>
-</body>
-
-</html>
+$app->start();
