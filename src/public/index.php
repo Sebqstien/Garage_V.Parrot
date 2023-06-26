@@ -1,6 +1,5 @@
 <?php
-require '../../vendor/autoload.php';
-
+require_once('../../vendor/autoload.php');
 ?>
 
 
@@ -16,6 +15,18 @@ require '../../vendor/autoload.php';
 </head>
 
 <body>
+
+
+
+
+
+
+    <?php
+
+
+
+
+    ?>
 
     <script src="./bootstrap/js/bootstrap.min.js"></script>
 </body>
