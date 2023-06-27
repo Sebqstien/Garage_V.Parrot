@@ -2,10 +2,13 @@
 
 namespace App\Controllers;
 
+
+
 class MainController extends Controller
 {
     public function index()
     {
-        $this->render('home.html.twig', ['pageTitle' => 'Accueil']);
+
+        $this->render('home.html.twig');
     }
 }
