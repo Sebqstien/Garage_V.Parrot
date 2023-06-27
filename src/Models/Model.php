@@ -32,6 +32,7 @@ abstract class Model extends Database
 
     public function find(int $id)
     {
+        $id = intval($id);
         return $this->requete("SELECT * FROM {$this->table} WHERE id = $id")->fetch();
     }
 

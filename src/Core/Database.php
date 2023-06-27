@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use Config;
 use PDO;
 use PDOException;
 
@@ -9,19 +10,13 @@ class Database extends PDO
 {
     private static $instance;
 
-    //informations de connexions
-    private const DBHOST = 'localhost';
-    private const DBUSER = 'root';
-    private const DBPASS = '';
-    private const DBNAME = 'garage_vparrot';
-
 
     public function __construct()
     {
-        $_dsn = 'mysql:dbname=' . self::DBNAME . ';host=' . self::DBHOST;
+        $_dsn = 'mysql:dbname=' . Config::DBNAME . ';host=' . Config::DBHOST;
 
         try {
-            parent::__construct($_dsn, self::DBUSER, self::DBPASS);
+            parent::__construct($_dsn, Config::DBUSER, Config::DBPASS);
 
             $this->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
             $this->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
