@@ -24,9 +24,9 @@ abstract class Model extends Database
         }
     }
 
-    public function findAll()
+    public function findAll(?string $options = null)
     {
-        $query = $this->requete("SELECT * FROM " . $this->table);
+        $query = $this->requete("SELECT * FROM " . $this->table . $options);
         return $query->fetchAll();
     }
 
@@ -42,9 +42,8 @@ abstract class Model extends Database
         $inter = [];
         $valeurs = [];
 
-        // On boucle pour éclater le tableau
+
         foreach ($this as $champ => $valeur) {
-            // INSERT INTO annonces (titre, description, actif) VALUES (?, ?, ?)
             if ($valeur !== null && $champ != 'database' && $champ != 'table') {
                 $champs[] = $champ;
                 $inter[] = "?";
@@ -52,7 +51,6 @@ abstract class Model extends Database
             }
         }
 
-        // On transforme le tableau "champs" en une chaine de caractères
         $liste_champs = implode(', ', $champs);
         $liste_inter = implode(', ', $inter);
 
@@ -65,9 +63,9 @@ abstract class Model extends Database
         $champs = [];
         $valeurs = [];
 
-        // On boucle pour éclater le tableau
+
         foreach ($this as $champ => $valeur) {
-            // UPDATE annonces SET titre = ?, description = ?, actif = ? WHERE id= ?
+
             if ($valeur !== null && $champ != 'db' && $champ != 'table') {
                 $champs[] = "$champ = ?";
                 $valeurs[] = $valeur;
@@ -75,10 +73,8 @@ abstract class Model extends Database
         }
         $valeurs[] = $id;
 
-        // On transforme le tableau "champs" en une chaine de caractères
         $liste_champs = implode(', ', $champs);
 
-        // On exécute la requête
         return $this->requete('UPDATE ' . $this->table . ' SET ' . $liste_champs . ' WHERE id = ?', $valeurs);
     }
 
@@ -91,13 +87,9 @@ abstract class Model extends Database
     public function hydrate($donnees)
     {
         foreach ($donnees as $key => $value) {
-            // On récupère le nom du setter correspondant à la clé (key)
-            // titre -> setTitre
             $setter = 'set' . ucfirst($key);
 
-            // On vérifie si le setter existe
             if (method_exists($this, $setter)) {
-                // On appelle le setter
                 $this->$setter($value);
             }
         }
