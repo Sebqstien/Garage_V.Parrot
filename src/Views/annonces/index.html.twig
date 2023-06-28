@@ -1,1 +1,27 @@
-annonces
+{% extends "base.html.twig" %}
+
+{% block content %}
+<ul>
+    {% for annonce in annonces %}
+    <li>
+        <h2>{{annonce.titre}}</h2>
+        <img style="width:100px; height:100px;" src={{annonce.path_image}} alt="">
+        <h3>Description:</h3>
+        <h6>Date de mise en ligne: {{annonce.created_at|date("d/m/Y")}}</h6>
+        <ul>
+            <li>
+                <p>Marque: {{annonce.marque}}</p>
+            </li>
+            <li>
+                <p>Annee: {{annonce.annee}}</p>
+            </li>
+            <li>
+                <p>Kilometres: {{annonce.kilometrage}}</p>
+            </li>
+        </ul>
+
+        <p>{{annonce.prix}} euros</p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}

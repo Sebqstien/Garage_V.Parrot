@@ -8,6 +8,7 @@ use App\Core\Database;
 abstract class Model extends Database
 {
     protected string $table;
+    protected ?string $options;
     private Database $database;
 
 
@@ -24,9 +25,9 @@ abstract class Model extends Database
         }
     }
 
-    public function findAll(?string $options = null)
+    public function findAll()
     {
-        $query = $this->requete("SELECT * FROM " . $this->table . $options);
+        $query = $this->requete("SELECT * FROM " . $this->table . $this->options);
         return $query->fetchAll();
     }
 

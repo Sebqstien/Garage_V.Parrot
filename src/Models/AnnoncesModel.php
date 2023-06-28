@@ -13,6 +13,7 @@ class AnnoncesModel extends Model
     public function __construct()
     {
         $this->table = "annonces";
+        $this->options = " INNER JOIN voitures ON annonces.id_voiture = voitures.id INNER JOIN images ON voitures.id = images.id ORDER BY created_at DESC;";
     }
 
 

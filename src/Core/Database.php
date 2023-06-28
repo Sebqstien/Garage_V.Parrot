@@ -2,7 +2,7 @@
 
 namespace App\Core;
 
-use Config;
+use App\Config;
 use PDO;
 use PDOException;
 
