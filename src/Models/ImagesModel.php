@@ -5,12 +5,14 @@ namespace App\Models;
 
 class ImagesModel extends Model
 {
-    private int $id;
+    private int $id_image;
     private string $path_image;
+    private int $id_voiture;
 
     public function __construct()
     {
         $this->table = "images";
+        
     }
 
     /**
@@ -18,12 +20,12 @@ class ImagesModel extends Model
      */
     public function getId()
     {
-        return $this->id;
+        return $this->id_image;
     }
 
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id_image = $id;
         return $this;
     }
 
@@ -44,6 +46,26 @@ class ImagesModel extends Model
     public function setPath_image($path_image)
     {
         $this->path_image = $path_image;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id_voiture
+     */
+    public function getId_voiture(AnnoncesModel $annoncesModel)
+    {
+        return $annoncesModel->getId();
+    }
+
+    /**
+     * Set the value of id_voiture
+     *
+     * @return  self
+     */
+    public function setId_voiture(AnnoncesModel $annoncesModel)
+    {
+        $this->id_voiture = $annoncesModel->getId();
 
         return $this;
     }

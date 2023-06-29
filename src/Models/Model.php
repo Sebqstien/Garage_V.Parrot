@@ -8,7 +8,8 @@ use App\Core\Database;
 abstract class Model extends Database
 {
     protected string $table;
-    protected ?string $options;
+    protected ?string $options = null;
+    protected ?string $jointure = null;
     private Database $database;
 
 
@@ -27,7 +28,7 @@ abstract class Model extends Database
 
     public function findAll()
     {
-        $query = $this->requete("SELECT * FROM " . $this->table . $this->options);
+        $query = $this->requete("SELECT * FROM " . $this->table . $this->jointure . $this->options);
         return $query->fetchAll();
     }
 
@@ -35,6 +36,12 @@ abstract class Model extends Database
     {
         $id = intval($id);
         return $this->requete("SELECT * FROM {$this->table} WHERE id = $id")->fetch();
+    }
+
+    public function findby(string $select, string $arg, int $id)
+    {
+        $id = intval($id);
+        return $this->requete("SELECT $select FROM {$this->table} WHERE $arg = $id")->fetchAll();
     }
 
     public function create()
@@ -55,7 +62,6 @@ abstract class Model extends Database
         $liste_champs = implode(', ', $champs);
         $liste_inter = implode(', ', $inter);
 
-        // On exécute la requête
         return $this->requete('INSERT INTO ' . $this->table . ' (' . $liste_champs . ')VALUES(' . $liste_inter . ')', $valeurs);
     }
 

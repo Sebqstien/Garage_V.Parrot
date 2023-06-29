@@ -4,12 +4,9 @@ namespace App\Core;
 
 use App\Controllers\ErrorController;
 
-require_once '../Controllers/MainController.php';
-
-
 class Router
 {
-    private $routes = [];
+    private array $routes = [];
 
     public function addRoute($url, $controllerAction)
     {
@@ -20,15 +17,19 @@ class Router
     {
         $url = $_SERVER['REQUEST_URI'];
 
-        if (array_key_exists($url, $this->routes)) {
-            $controllerAction = $this->routes[$url];
+        $matchedRoute = $this->matchRoute($url);
+
+        if ($matchedRoute) {
+            $controllerAction = $matchedRoute['controllerAction'];
+            $params = $matchedRoute['params'];
+
             [$controllerName, $actionName] = explode('@', $controllerAction);
 
             $controllerClassName = 'App\\Controllers\\' . $controllerName;
             $controller = new $controllerClassName();
 
             if (method_exists($controller, $actionName)) {
-                $controller->$actionName();
+                call_user_func_array([$controller, $actionName], array_values($params));
             } else {
                 throw new \Exception("Action '$actionName' not found in controller '$controllerClassName'.");
             }
@@ -36,5 +37,28 @@ class Router
             $errorController = new ErrorController;
             $errorController->error404();
         }
+    }
+
+    private function matchRoute($url)
+    {
+        foreach ($this->routes as $route => $controllerAction) {
+            $pattern = $this->convertRouteToRegex($route);
+            if (preg_match($pattern, $url, $matches)) {
+                $params = array_slice($matches, 1);
+                return [
+                    'controllerAction' => $controllerAction,
+                    'params' => $params
+                ];
+            }
+        }
+        return null;
+    }
+
+    private function convertRouteToRegex($route)
+    {
+        $pattern = preg_replace('/\//', '\\/', $route);
+        $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[^\/]+)', $pattern);
+        $pattern = '/^' . $pattern . '$/';
+        return $pattern;
     }
 }
