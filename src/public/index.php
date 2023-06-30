@@ -8,6 +8,7 @@ use App\Controllers\AnnoncesController;
 use App\Controllers\MainController;
 use App\Core\Router;
 use App\Models\GaragesModel;
+use App\Models\UsersModel;
 
 $router = new Router;
 
@@ -17,16 +18,9 @@ $router->addRoute('/', 'MainController@index');
 $router->addRoute('/annonces', 'AnnoncesController@index');
 $router->addRoute('/avis', 'AvisController@index');
 $router->addRoute("/annonces/{id}", 'AnnoncesController@show');
+$router->addRoute("/admin", 'UsersController@login');
+$router->addRoute("/dashboards", 'UsersController@login');
 
 
 //Demarrage du Router
 $router->start();
-
-
-// $controller = new AnnoncesController;
-
-
-// echo '<pre>';
-// var_dump($controller);
-// die;
-// echo '</pre>';

@@ -15,6 +15,11 @@ class UsersModel extends Model
         $this->table = "users";
     }
 
+    public function findOneByEmail(string $email)
+    {
+        return $this->requete("SELECT * FROM {$this->table} WHERE email = ?", [$email])->fetch();
+    }
+
     /**
      * Get the value of id
      */
