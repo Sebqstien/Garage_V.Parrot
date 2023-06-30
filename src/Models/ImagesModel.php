@@ -2,17 +2,38 @@
 
 namespace App\Models;
 
-
+/**
+ * Echange de Donnees avec la table images de la BDD
+ */
 class ImagesModel extends Model
 {
+    /**
+     * Cle primaire
+     *
+     * @var integer
+     */
     private int $id_image;
+
+    /**
+     * Chemin de l'image stockee.
+     *
+     * @var string
+     */
     private string $path_image;
+
+    /**
+     * Cle etrangere reliee a la cle primaire de la table annonce.
+     *
+     * @var integer
+     */
     private int $id_voiture;
 
+    /**
+     * Constructeur
+     */
     public function __construct()
     {
         $this->table = "images";
-        
     }
 
     /**

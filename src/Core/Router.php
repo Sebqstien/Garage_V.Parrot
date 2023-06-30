@@ -4,16 +4,36 @@ namespace App\Core;
 
 use App\Controllers\ErrorController;
 
+/**
+ * Router
+ */
 class Router
 {
+    /**
+     * Routes
+     *
+     * @var array
+     */
     private array $routes = [];
 
-    public function addRoute($url, $controllerAction)
+    /**
+     * Ajoute une route
+     *
+     * @param string $url
+     * @param string $controllerAction
+     * @return void
+     */
+    public function addRoute(string $url, string $controllerAction): void
     {
         $this->routes[$url] = $controllerAction;
     }
 
-    public function start()
+    /**
+     * Demarre le routage
+     *
+     * @return void
+     */
+    public function start(): void
     {
         $url = $_SERVER['REQUEST_URI'];
 

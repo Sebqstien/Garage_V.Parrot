@@ -2,11 +2,37 @@
 
 namespace App\Models;
 
+/**
+ * Echange de Donnees avec la table horaires de la BDD
+ */
 class InformationsModel extends Model
 {
+    /**
+     * Cle primaire
+     *
+     * @var integer
+     */
     private int $id;
+
+    /**
+     * Jour d'ouverture du garage
+     *
+     * @var string
+     */
     private string $jours_ouverture;
+
+    /**
+     * Heures d'ouverture matin du garage
+     *
+     * @var string|null
+     */
     private ?string $heures_PM;
+
+    /**
+     * Heure d'ouverture apres-midi du garage
+     *
+     * @var string|null
+     */
     private ?string $heures_AM;
 
     public function __construct()

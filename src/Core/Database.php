@@ -6,11 +6,21 @@ use App\Config;
 use PDO;
 use PDOException;
 
+/**
+ * Represente une connexion avec la base de donnees.
+ */
 class Database extends PDO
 {
-    private static $instance;
+    /**
+     * instance PDO en singleton.
+     *
+     * @var PDO
+     */
+    protected static $instance;
 
-
+    /**
+     * Constructeur
+     */
     public function __construct()
     {
         $_dsn = 'mysql:dbname=' . Config::DBNAME . ';host=' . Config::DBHOST;
@@ -31,7 +41,7 @@ class Database extends PDO
      *
      * @return self
      */
-    public static function getInstance(): self
+    protected function getInstance(): self
     {
         if (self::$instance === null) {
             self::$instance = new self();

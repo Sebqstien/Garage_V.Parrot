@@ -2,15 +2,50 @@
 
 namespace App\Models;
 
-
+/**
+ * Echange de Donnees avec la table Garages de la BDD
+ */
 class GaragesModel extends Model
 {
+    /**
+     * Cle primaire
+     *
+     * @var integer
+     */
     private int $id;
+
+    /**
+     * Nom du garage
+     *
+     * @var string
+     */
     private string $nom;
+
+    /**
+     * Email du garage
+     *
+     * @var string
+     */
     private string $email;
+
+    /**
+     * Telephone du garage
+     *
+     * @var integer
+     */
     private int $telephone;
+
+    /**
+     * Adresse du garage
+     *
+     * @var string
+     */
     private string $adresse;
 
+
+    /**
+     * Constructeur
+     */
     public function __construct()
     {
         $this->table = 'garages';

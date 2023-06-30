@@ -2,14 +2,42 @@
 
 namespace App\Models;
 
+/**
+ * Echange de Donnees avec la table Services de la BDD
+ */
 class ServicesModel extends Model
 {
+    /**
+     * Cle primaire
+     *
+     * @var integer
+     */
     private int $id;
-    private string $titre;
-    private string $description;
-    private float $prix;
-    private ImagesModel $id_image;
 
+    /**
+     * Titre du service.
+     *
+     * @var string
+     */
+    private string $titre;
+
+    /**
+     * Description du service
+     *
+     * @var string
+     */
+    private string $description;
+
+    /**
+     * Prix du service
+     *
+     * @var float
+     */
+    private float $prix;
+
+    /**
+     * Constructeur
+     */
     public function __construct()
     {
         $this->table = "services";
@@ -79,26 +107,6 @@ class ServicesModel extends Model
     public function setPrix($prix)
     {
         $this->prix = $prix;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of id_image
-     */
-    public function getId_image(ImagesModel $imageModel)
-    {
-        return $this->id_image = $imageModel->getId();
-    }
-
-    /**
-     * Set the value of id_image
-     *
-     * @return  self
-     */
-    public function setId_image(ImagesModel $imageModel)
-    {
-        $this->id_image = $imageModel->getid($this->id_image);
 
         return $this;
     }

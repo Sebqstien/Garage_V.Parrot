@@ -4,11 +4,9 @@ define('ROOT', dirname(__DIR__));
 
 require_once ROOT . '/vendor/autoload.php';
 
-use App\Controllers\AnnoncesController;
-use App\Controllers\MainController;
+
 use App\Core\Router;
-use App\Models\GaragesModel;
-use App\Models\UsersModel;
+
 
 $router = new Router;
 

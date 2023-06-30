@@ -4,10 +4,17 @@ namespace App\Controllers;
 
 use App\Models\ServicesModel;
 
+/**
+ * Controller de la page d'accueil et des services.
+ */
 class MainController extends Controller
 {
-
-    public function index()
+    /**
+     * Recupere les donnees en BDD et genere la vue de la page d'accueil.
+     *
+     * @return void
+     */
+    public function index(): void
     {
         $servicesModel = new ServicesModel;
         $services = $servicesModel->findAll();

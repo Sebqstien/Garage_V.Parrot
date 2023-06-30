@@ -2,18 +2,84 @@
 
 namespace App\Models;
 
-
+/**
+ * Echange de Donnees avec la table Annonces de la BDD
+ */
 class AnnoncesModel extends Model
 {
-    protected int $id;
-    protected string $titre;
-    protected ?string $description;
-    protected ?string $marque;
-    protected ?string $modele;
-    protected ?string $carburant;
-    protected ?string $prix;
+    /**
+     * Cle primaire
+     *
+     * @var integer
+     */
+    private int $id;
+
+    /**
+     * Titre de l'annonce
+     *
+     * @var string
+     */
+    private string $titre;
+
+    /**
+     * Description de l'annonce
+     *
+     * @var string|null
+     */
+    private ?string $description;
+
+    /**
+     * marque du vehicule
+     *
+     * @var string|null
+     */
+    private ?string $marque;
+
+    /**
+     * Modele du vehicule
+     *
+     * @var string|null
+     */
+    private ?string $modele;
+
+    /**
+     * Type carburant du vehicule
+     *
+     * @var string|null
+     */
+    private ?string $carburant;
+
+    /**
+     * Prix du vehicule
+     *
+     * @var string
+     */
+    private string $prix;
+
+    /**
+     * Kilometrage du vehicule
+     *
+     * @var string
+     */
+    private string $kilometrage;
+
+    /**
+     * Annee de mise encirculation du vehicule
+     *
+     * @var string|null
+     */
+    private ?string $annee;
+
+    /**
+     * Date de creation de l'annonce
+     *
+     * @var string|null
+     */
     protected ?string $created_at;
 
+    /**
+     * Constructeur
+     */
     public function __construct()
     {
         $this->table = "annonces";
@@ -156,6 +222,54 @@ class AnnoncesModel extends Model
     public function setPrix($prix)
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    /**
+     * Get kilometrage du vehicule
+     *
+     * @return  string
+     */
+    public function getKilometrage()
+    {
+        return $this->kilometrage;
+    }
+
+    /**
+     * Set kilometrage du vehicule
+     *
+     * @param  string  $kilometrage  Kilometrage du vehicule
+     *
+     * @return  self
+     */
+    public function setKilometrage(string $kilometrage)
+    {
+        $this->kilometrage = $kilometrage;
+
+        return $this;
+    }
+
+    /**
+     * Get annee de mise encirculation du vehicule
+     *
+     * @return  string|null
+     */
+    public function getAnnee()
+    {
+        return $this->annee;
+    }
+
+    /**
+     * Set annee de mise encirculation du vehicule
+     *
+     * @param  string|null  $annee  Annee de mise encirculation du vehicule
+     *
+     * @return  self
+     */
+    public function setAnnee($annee)
+    {
+        $this->annee = $annee;
 
         return $this;
     }

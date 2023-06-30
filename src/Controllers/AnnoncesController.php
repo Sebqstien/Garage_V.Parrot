@@ -5,9 +5,18 @@ namespace App\Controllers;
 use App\Models\AnnoncesModel;
 use App\Models\ImagesModel;
 
+/**
+ * Controller de la table annonce.
+ */
 class AnnoncesController extends Controller
 {
-    public function index()
+
+    /**
+     * Recupere les donnees en BDD et genere la vue de la page des annonces.
+     *
+     * @return void
+     */
+    public function index(): void
     {
         $garage = $this->garage;
         $annoncesModel = new AnnoncesModel;
@@ -15,7 +24,13 @@ class AnnoncesController extends Controller
         $this->render('annonces/index.html.twig', compact('annonces', 'garage'));
     }
 
-    public function show(int $id)
+    /**
+     * Recupere les donnees en BDD et genere la vue de la page d'une annonce.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function show(int $id): void
     {
         if ($this->annonceExist($id) === true) {
             $garage = $this->garage;
@@ -30,6 +45,12 @@ class AnnoncesController extends Controller
         }
     }
 
+    /**
+     * Verifie en BDD si l'annonce existe.
+     *
+     * @param integer $id
+     * @return void
+     */
     private function annonceExist(int $id)
     {
         $annoncesModel = new AnnoncesModel;

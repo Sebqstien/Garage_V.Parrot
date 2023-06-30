@@ -2,18 +2,57 @@
 
 namespace App\Models;
 
-class UsersModel extends Model
+/**
+ * Declare les methodes concernant la table users
+ * @abstract
+ */
+abstract class UsersModel extends Model
 {
+    /**
+     * Cle primaire
+     *
+     * @var integer
+     */
     private int $id;
+
+    /**
+     * Nom de l'user
+     *
+     * @var string|null
+     */
     private ?string $nom;
+
+    /**
+     * Prenom de l'user
+     *
+     * @var string|null
+     */
     private ?string $prenom;
+
+    /**
+     * Email de l'user.
+     *
+     * @var string
+     */
     private string $email;
+
+    /**
+     * Roles de l'user.
+     *
+     * @var array
+     */
     private array $roles;
 
+
+    /**
+     * Constructeur
+     */
     public function __construct()
     {
         $this->table = "users";
     }
+    //TODO: FINIR LES DOCS BLOCK
+
 
     public function findOneByEmail(string $email)
     {

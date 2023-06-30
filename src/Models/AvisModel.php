@@ -2,13 +2,41 @@
 
 namespace App\Models;
 
+/**
+ * Echange de Donnees avec la table Avis de la BDD
+ */
 class AvisModel extends Model
 {
+    /**
+     * Cle primaire
+     *
+     * @var integer
+     */
     private int $id;
+    /**
+     * Nom du client
+     *
+     * @var string
+     */
     private string $nom;
+
+    /**
+     * Note du client
+     *
+     * @var integer
+     */
     private int $note;
+
+    /**
+     * Commentaire du client
+     *
+     * @var string
+     */
     private string $comentaire_avis;
 
+    /**
+     * constructeur
+     */
     public function __construct()
     {
         $this->table = "avis";
