@@ -23,7 +23,15 @@
     {% block content %}
 
     {% endblock content %}
+    <footer>
+        <div>
+            {% for g in garage %}
+            <h3>{{g.nom}}</h3>
+            <p>{{g.telephone}} euro</p>
 
+            {% endfor %}
+        </div>
+    </footer>
 </body>
 
 </html>

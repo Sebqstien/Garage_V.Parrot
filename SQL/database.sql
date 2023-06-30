@@ -51,7 +51,7 @@ CREATE TABLE `informations` (
     `jour_ouverture` VARCHAR(30),
     `heure_ouverture` VARCHAR(30),
     `heure_fermeture` VARCHAR(30),
-    `id_garage` INT NOT NULL REFERENCES garages(id)
+    `id_garage` INT NOT NULL FOREIGN KEY REFERENCES garages(id)
 );
 --
 -- Structure de la table `users`

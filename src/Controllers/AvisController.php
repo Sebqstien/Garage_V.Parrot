@@ -7,6 +7,7 @@ class AvisController extends Controller
 {
     public function index()
     {
-        $this->render('/avis/index.html.twig');
+        $garage = $this->garage;
+        $this->render('/avis/index.html.twig', compact('garage'));
     }
 }

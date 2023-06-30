@@ -5,14 +5,14 @@ namespace App\Models;
 
 class AnnoncesModel extends Model
 {
-    private int $id;
-    private string $titre;
-    private ?string $description;
-    private ?string $marque;
-    private ?string $modele;
-    private ?string $carburant;
-    private ?string $prix;
-    private ?string $created_at;
+    protected int $id;
+    protected string $titre;
+    protected ?string $description;
+    protected ?string $marque;
+    protected ?string $modele;
+    protected ?string $carburant;
+    protected ?string $prix;
+    protected ?string $created_at;
 
     public function __construct()
     {

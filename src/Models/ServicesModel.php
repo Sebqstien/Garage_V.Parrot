@@ -12,7 +12,7 @@ class ServicesModel extends Model
 
     public function __construct()
     {
-        $this->table = "images";
+        $this->table = "services";
     }
 
     /**
@@ -91,7 +91,7 @@ class ServicesModel extends Model
         return $this->id_image = $imageModel->getId();
     }
 
-        /**
+    /**
      * Set the value of id_image
      *
      * @return  self
@@ -102,5 +102,4 @@ class ServicesModel extends Model
 
         return $this;
     }
-
 }
