@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+
 /**
  * Declare les methodes concernant la table users
  * @abstract
  */
-abstract class UsersModel extends Model
+class UsersModel extends Model
 {
     /**
      * Cle primaire
@@ -20,28 +21,35 @@ abstract class UsersModel extends Model
      *
      * @var string|null
      */
-    private ?string $nom;
+    private ?string $nom = null;
 
     /**
      * Prenom de l'user
      *
      * @var string|null
      */
-    private ?string $prenom;
+    private ?string $prenom = null;
 
     /**
      * Email de l'user.
      *
-     * @var string
+     * @var string|null
      */
-    private string $email;
+    private ?string $email = null;
 
     /**
-     * Roles de l'user.
+     * Mot de passe de l'utilisateur
      *
-     * @var array
+     * @var string|null
      */
-    private array $roles;
+    private ?string $password = null;
+
+    /**
+     * Roles de l'utilisateur.
+     *
+     * @var bool|null
+     */
+    private ?bool $is_admin = null;
 
 
     /**
@@ -53,10 +61,30 @@ abstract class UsersModel extends Model
     }
     //TODO: FINIR LES DOCS BLOCK
 
-
-    public function findOneByEmail(string $email)
+    /**
+     * Recherche un utilisateur par email en BDD.
+     *
+     * @param string $email
+     * @return array|bool
+     */
+    public function findOneByEmail(string $email): array|bool
     {
         return $this->requete("SELECT * FROM {$this->table} WHERE email = ?", [$email])->fetch();
+    }
+
+    /**
+     * Alimente la session avec les variables de l'utilisateur.
+     *
+     * @return void
+     */
+    public function setSession(): void
+    {
+        $_SESSION['user'] = [
+            'nom' => $this->nom,
+            'prenom' => $this->prenom,
+            'email' => $this->email,
+            'is_admin' => $this->is_admin
+        ];
     }
 
     /**
@@ -127,22 +155,47 @@ abstract class UsersModel extends Model
         return $this;
     }
 
+
     /**
-     * Get the value of roles
+     * Get the value of password
      */
-    public function getRoles()
+    public function getPassword()
     {
-        return $this->roles;
+        return $this->password;
     }
 
     /**
-     * Set the value of roles
+     * Set the value of password
      *
      * @return  self
      */
-    public function setRoles($roles)
+    public function setPassword($password)
     {
-        $this->roles = $roles;
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get roles de l'utilisateur.
+     *
+     * @return  bool
+     */
+    public function getIs_admin()
+    {
+        return $this->is_admin;
+    }
+
+    /**
+     * Set roles de l'utilisateur.
+     *
+     * @param  bool  $is_admin  Roles de l'utilisateur.
+     *
+     * @return  self
+     */
+    public function setIs_admin(bool $is_admin)
+    {
+        $this->is_admin = $is_admin;
 
         return $this;
     }

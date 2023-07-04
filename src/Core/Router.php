@@ -5,7 +5,7 @@ namespace App\Core;
 use App\Controllers\ErrorController;
 
 /**
- * Router
+ * Routeur de l'application
  */
 class Router
 {

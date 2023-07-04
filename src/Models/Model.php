@@ -60,6 +60,22 @@ abstract class Model extends Database
         }
     }
 
+    public function hydrate($donnees)
+    {
+        foreach ($donnees as $key => $value) {
+            // On récupère le nom du setter correspondant à la clé (key)
+            // titre -> setTitre
+            $setter = 'set' . ucfirst($key);
+
+            // On vérifie si le setter existe
+            if (method_exists($this, $setter)) {
+                // On appelle le setter
+                $this->$setter($value);
+            }
+        }
+        return $this;
+    }
+
     /**
      * Retourne tous les elements d'une table.
      *
@@ -85,7 +101,7 @@ abstract class Model extends Database
     }
 
     /**
-     * Retourne tous les elements slectionnes par ligne et cles primaire;
+     * Retourne tous les elements selectionnes par ligne et cles primaire;
      *
      * @param string $row
      * @param string $primary_key
