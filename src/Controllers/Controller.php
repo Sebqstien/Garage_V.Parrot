@@ -9,7 +9,7 @@ use Twig\Loader\FilesystemLoader;
 /**
  * Controller abstrait
  */
-class Controller
+abstract class Controller
 {
     /**
      * Informations du garage

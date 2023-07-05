@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Core\Database;
 
 /**
  * Declare les methodes concernant la table users
@@ -69,7 +70,11 @@ class UsersModel extends Model
      */
     public function findOneByEmail(string $email): array|bool
     {
-        return $this->requete("SELECT * FROM {$this->table} WHERE email = ?", [$email])->fetch();
+        $sql = "SELECT * FROM {$this->table} WHERE email = :email";
+        $query = Database::getInstance()->prepare($sql);
+        $query->bindValue(':email', $email);
+        $query->execute();
+        return $query->fetch();
     }
 
     /**

@@ -2,6 +2,22 @@
 {% block content %}
 <h1>Dashboard</h1>
 <h3>Bonjour Mr {{ session.user['nom'] }}</h3>
-<p>{{session.erreur}}</p>
 <a href="/logout">Se deconnecter</a>
+
+{% if session.erreur is defined %}
+<div class="alert alert-danger">
+    <p class="text-center">{{session.erreur}}</p>
+</div>
+{% endif %}
+
+<div>
+    <h3>Creer un utilisateur</h3>
+    <form method="post">
+        <label for="email">Email</label>
+        <input type="text" name="email" placeholder="email" id="email">
+        <label for="password">Mot de passe</label>
+        <input type="password" name="password" placeholder="password" id="password">
+        <button type="submit">Creer</button>
+    </form>
+</div>
 {% endblock content %}

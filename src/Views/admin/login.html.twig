@@ -1,5 +1,12 @@
 {% extends "base.html.twig" %}
 {% block content %}
+<h1>Page de connexion</h1>
+
+{% if session.erreur is defined %}
+<div class="alert alert-danger">
+    <p class="text-center">{{session.erreur}}</p>
+</div>
+{% endif %}
 <form method="post">
     <label for="email">Email</label>
     <input type="text" name="email" placeholder="email" id="email">
@@ -7,5 +14,5 @@
     <input type="password" name="password" placeholder="password" id="password">
     <button type="submit">Se connecter</button>
 </form>
-<p>{{ session.erreur }}</p>
+
 {% endblock content %}

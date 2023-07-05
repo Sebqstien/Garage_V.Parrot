@@ -16,7 +16,7 @@ class Database extends PDO
      *
      * @var PDO
      */
-    protected static $instance;
+    private static $instance;
 
     /**
      * Constructeur
@@ -41,7 +41,7 @@ class Database extends PDO
      *
      * @return self
      */
-    protected function getInstance(): self
+    static protected function getInstance(): self
     {
         if (self::$instance === null) {
             self::$instance = new self();

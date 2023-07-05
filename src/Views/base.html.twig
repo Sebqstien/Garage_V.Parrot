@@ -8,6 +8,7 @@
     <meta name="author" content="Sebastien Verslype" />
     <meta name="description" content="" /><!--TODO:finir description -->
     <meta name="”robots”" content="”index," follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1″ />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
 
     <!-- Fonts Google-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +28,7 @@
         <div>
             {% for g in garage %}
             <h3>{{g.nom}}</h3>
-            <p>{{g.telephone}} euro</p>
+            <p>{{g.telephone}}</p>
 
             {% endfor %}
         </div>

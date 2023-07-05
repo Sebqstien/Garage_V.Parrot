@@ -40,25 +40,6 @@ abstract class Model extends Database
      */
     protected Database $database;
 
-    /**
-     * Represente une requete SQL
-     *
-     * @param string $sql
-     * @param array|null $attributs
-     * @return PDOstatement|boolean
-     */
-    public function requete(string $sql, ?array $attributs = null): PDOStatement|bool
-    {
-        $this->database = Database::getInstance();
-
-        if ($attributs !== null) {
-            $query = $this->database->prepare($sql);
-            $query->execute($attributs);
-            return $query;
-        } else {
-            return $this->database->query($sql);
-        }
-    }
 
     public function hydrate($donnees)
     {
@@ -84,7 +65,7 @@ abstract class Model extends Database
     public function findAll(): array|bool
     {
         $sql = "SELECT * FROM " . $this->table . $this->jointure . $this->options;
-        $query = $this->requete($sql);
+        $query = Database::getInstance()->query($sql);
         return $query->fetchAll();
     }
 
@@ -97,7 +78,9 @@ abstract class Model extends Database
     public function find(int $id): array|bool
     {
         $sql = "SELECT * FROM {$this->table} WHERE id = $id";
-        return $this->requete($sql)->fetch();
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute();
+        return $query->fetch();
     }
 
     /**
@@ -111,6 +94,9 @@ abstract class Model extends Database
     public function findBy(string $row, string $primary_key, int $id): array|bool
     {
         $sql = "SELECT $row FROM {$this->table} WHERE $primary_key = $id";
-        return $this->requete($sql)->fetchAll();
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
     }
+
 }

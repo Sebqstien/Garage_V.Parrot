@@ -14,7 +14,7 @@ class UsersController extends Controller
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!empty($_POST['email'] && !empty($_POST['password']))) {
+            if (!empty($_POST['email']) && !empty($_POST['password']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
 
                 $email = $_POST['email'];
                 $password = $_POST['password'];
@@ -25,11 +25,12 @@ class UsersController extends Controller
                 if ($userArray && ($password === $userArray['password'])) { //TODO:hash MDP password_verify($password, $user['password'])
 
                     $user = $userModel->hydrate($userArray);
+                    unset($_SESSION['erreur']);
                     $user->setSession();
                     $this->redirect('/dashboard', 301);
                     exit;
                 }
-                echo "utilisateurs pas trouve";
+                $_SESSION['erreur'] = "Identifiants invalide";
             } else {
 
                 $_SESSION['erreur'] = "L'adresse email et/ou le mot de passe est incorrect";
@@ -52,8 +53,6 @@ class UsersController extends Controller
             $_SESSION['erreur'] = "Vous n'avez pas acces a cette zone";
         }
     }
-
-
 
 
     public function logout()

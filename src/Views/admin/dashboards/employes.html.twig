@@ -2,6 +2,10 @@
 {% block content %}
 <h1>Dashboard</h1>
 <h3>Bonjour Mr {{ session.user['nom'] }}</h3>
-<p>{{session.erreur}}</p>
+{% if session.erreur is defined %}
+<div class="alert alert-danger">
+    <p class="text-center">{{session.erreur}}</p>
+</div>
+{% endif %}
 <a href="/logout">Se deconnecter</a>
 {% endblock content %}

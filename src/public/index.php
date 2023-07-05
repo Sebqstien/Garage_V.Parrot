@@ -18,12 +18,13 @@ $router->addRoute('/annonces', 'AnnoncesController@index');
 $router->addRoute('/avis', 'AvisController@index');
 $router->addRoute("/annonces/{id}", 'AnnoncesController@show');
 $router->addRoute("/login", 'UsersController@login');
-$router->addRoute("/dashboard", 'UsersController@dashboard');
 $router->addRoute("/logout", 'UsersController@logout');
+$router->addRoute("/dashboard", 'UsersController@dashboard');
+$router->addRoute("/dashboard/create", 'AdminController@createUser');
 
 
 
 //Demarrage du Router
 $router->start();
 
-var_dump($_SESSION);
+var_dump($_POST);
