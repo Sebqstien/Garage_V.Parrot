@@ -45,7 +45,9 @@ class UsersController extends Controller
     public function dashboard()
     {
         if (isset($_SESSION['user']) &&  $_SESSION['user']['is_admin'] === true) {
-            $this->render('/admin/dashboards/admin.html.twig');
+            $userModel = new UsersModel();
+            $users = $userModel->findAll();
+            $this->render('/admin/dashboards/admin.html.twig', ['users' => $users]);
         } elseif (isset($_SESSION['user']) &&  $_SESSION['user']['is_admin'] === false) {
             $this->render('/admin/dashboards/employes.html.twig');
         } else {
@@ -61,4 +63,5 @@ class UsersController extends Controller
         $this->redirect('/', 301);
         exit;
     }
+    
 }

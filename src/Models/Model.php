@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Core\Database;
-use PDOStatement;
+
 
 /**
  * Declare les methodes d'echanges avec la base de donnees.
@@ -44,13 +44,9 @@ abstract class Model extends Database
     public function hydrate($donnees)
     {
         foreach ($donnees as $key => $value) {
-            // On récupère le nom du setter correspondant à la clé (key)
-            // titre -> setTitre
-            $setter = 'set' . ucfirst($key);
 
-            // On vérifie si le setter existe
+            $setter = 'set' . ucfirst($key);
             if (method_exists($this, $setter)) {
-                // On appelle le setter
                 $this->$setter($value);
             }
         }
@@ -98,5 +94,4 @@ abstract class Model extends Database
         $query->execute();
         return $query->fetchAll();
     }
-
 }
