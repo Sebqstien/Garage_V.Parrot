@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\GaragesModel;
+use App\Models\HorairesModel;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -19,12 +20,38 @@ abstract class Controller
     protected ?array $garage;
 
     /**
+     * Horaires du garage.
+     *
+     * @var array|null
+     */
+    protected ?array $horaires;
+
+
+
+
+    /**
      * Constructeur
      */
     public function __construct()
     {
         $garageModel = new GaragesModel;
+        $horairesModel = new HorairesModel;
+        $this->horaires = $horairesModel->findAll();
         $this->garage = $garageModel->findAll();
+    }
+
+    /**
+     * Recupere les informations du footer pour les injectes dans la vue.
+     *
+     * @return void
+     */
+    public function getFooterData()
+    {
+        $footerData = array(
+            'garage' => $this->garage,
+            'horaires' => $this->horaires
+        );
+        return $footerData;
     }
 
     /**

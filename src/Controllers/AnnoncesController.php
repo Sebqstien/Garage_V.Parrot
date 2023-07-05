@@ -18,10 +18,10 @@ class AnnoncesController extends Controller
      */
     public function index(): void
     {
-        $garage = $this->garage;
         $annoncesModel = new AnnoncesModel;
         $annonces = $annoncesModel->findAll();
-        $this->render('annonces/index.html.twig', compact('annonces', 'garage'));
+        $footerData = $this->getFooterData();
+        $this->render('annonces/index.html.twig', compact('annonces', 'footerData'));
     }
 
     /**
@@ -32,13 +32,17 @@ class AnnoncesController extends Controller
      */
     public function show(int $id): void
     {
+        $footerData = $this->getFooterData();
         if ($this->annonceExist($id) === true) {
-            $garage = $this->garage;
             $annoncesModel = new AnnoncesModel;
             $imagesModel = new ImagesModel;
             $annonce = $annoncesModel->find($id);
             $images = $imagesModel->findBy("path_image", "id_voiture", $id);
-            $this->render('annonces/show.html.twig', compact('annonce', 'images', 'garage'));
+            $this->render('annonces/show.html.twig', [
+                'annonce' => $annonce,
+                'images' => $images,
+                'footerData' => $footerData
+            ]);
         } else {
             $errorController = new ErrorController;
             $errorController->error404();

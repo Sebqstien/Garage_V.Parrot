@@ -32,5 +32,5 @@ $router->addRoute("/dashboard/delete/{id}", 'AdminController@delete');
 //Demarrage du Router
 $router->start();
 
-var_dump($_SESSION);
-var_dump($_POST);
+// var_dump($_SESSION);
+// var_dump($_POST);

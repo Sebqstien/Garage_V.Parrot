@@ -37,11 +37,24 @@
     {% endblock content %}
     <footer>
         <div>
-            {% for g in garage %}
-            <h3>{{g.nom}}</h3>
-            <p>{{g.telephone}}</p>
+            <ul>
+                {% for item in footerData.garage %}
+                <li>{{ item.nom }}</li>
+                <li>{{ item.email }}</li>
+                <li>0{{ item.telephone }}</li>
+                <li>{{ item.adresse }}</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-            {% endfor %}
+        <div>
+            <ul>
+                {% for item in footerData.horaires %}
+                <li>{{item.jours_ouverture}}</li>
+                <li>{{item.heures_PM}}</li>
+                <li>{{item.heures_AM}}</li>
+                {% endfor %}
+            </ul>
         </div>
     </footer>
 </body>

@@ -5,7 +5,7 @@ namespace App\Models;
 /**
  * Echange de Donnees avec la table horaires de la BDD
  */
-class InformationsModel extends Model
+class HorairesModel extends Model
 {
     /**
      * Cle primaire
