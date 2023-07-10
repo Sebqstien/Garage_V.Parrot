@@ -77,20 +77,50 @@ class UsersModel extends Model
         return $query->fetch();
     }
 
+
+
     /**
-     * Alimente la session avec les variables de l'utilisateur.
+     * Modifie un utilisateur existant dans la base de données.
      *
-     * @return void
+     * @param integer $id ID de l'utilisateur à modifier.
+     * @param array $data Données de l'utilisateur à mettre à jour.
+     * @return bool Retourne true si la modification est réussie, sinon false.
      */
-    public function setSession(): void
+    public function editUser(int $id, array $data): bool
     {
-        $_SESSION['user'] = [
-            'nom' => $this->nom,
-            'prenom' => $this->prenom,
-            'email' => $this->email,
-            'is_admin' => $this->is_admin
-        ];
+        $sql = "UPDATE {$this->table} SET nom = :nom, prenom = :prenom, email = :email, password = :password, is_admin = :is_admin WHERE id = :id";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute([
+            'id' => $id,
+            'nom' => $data['nom'],
+            'prenom' => $data['prenom'],
+            'email' => $data['email'],
+            'password' => password_hash($data['password'], PASSWORD_DEFAULT),
+            'is_admin' => $data['is_admin'],
+        ]);
+        return ($query->rowCount() === 1);
     }
+
+    /**
+     * Crée un nouvel utilisateur dans la base de données.
+     *
+     * @param array $data Données de l'utilisateur à créer.
+     * @return bool Retourne true si la création est réussie, sinon false.
+     */
+    public function createUser(array $data): bool
+    {
+        $sql = "INSERT INTO {$this->table} (nom, prenom, email, password, is_admin) VALUES (:nom, :prenom, :email, :password, :is_admin)";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute([
+            'nom' => $data['nom'],
+            'prenom' => $data['prenom'],
+            'email' => $data['email'],
+            'password' => password_hash($data['password'], PASSWORD_DEFAULT),
+            'is_admin' => $data['is_admin'],
+        ]);
+        return ($query->rowCount() === 1);
+    }
+
 
     /**
      * Get the value of id

@@ -17,14 +17,24 @@ $router->addRoute('/', 'MainController@index');
 $router->addRoute('/annonces', 'AnnoncesController@index');
 $router->addRoute('/avis', 'AvisController@index');
 $router->addRoute("/annonces/{id}", 'AnnoncesController@show');
-$router->addRoute("/login", 'UsersController@login');
-$router->addRoute("/logout", 'UsersController@logout');
-$router->addRoute("/dashboard", 'UsersController@dashboard');
-$router->addRoute("/dashboard/create", 'AdminController@showForm');
-$router->addRoute("/dashboard/edit/{id}", 'AdminController@showForm');
-$router->addRoute("/dashboard/save", 'AdminController@save');
-$router->addRoute("/dashboard/save/{id}", 'AdminController@save');
-$router->addRoute("/dashboard/delete/{id}", 'AdminController@delete');
+$router->addRoute("/login", 'Logincontroller@login');
+$router->addRoute("/logout", 'Logincontroller@logout');
+$router->addRoute("/dashboard", 'DashboardController@index');
+$router->addRoute("/dashboard/users", 'DashboardController@index');
+$router->addRoute("/dashboard/users/create", 'DashboardController@showUserForm');
+$router->addRoute("/dashboard/users/edit/{id}", 'DashboardController@showUserForm');
+$router->addRoute("/dashboard/users/save", 'DashboardController@saveUser');
+$router->addRoute("/dashboard/users/save/{id}", 'DashboardController@saveUser');
+$router->addRoute("/dashboard/users/delete/{id}", 'DashboardController@deleteUser');
+$router->addRoute("/dashboard/annonces/create", 'DashboardController@showAnnonceForm');
+$router->addRoute("/dashboard/annonces/edit/{id}", 'DashboardController@showAnnonceForm');
+$router->addRoute("/dashboard/annonces/save", 'DashboardController@createAnnonceAction');
+$router->addRoute("/dashboard/annonces/save/{id}", 'DashboardController@editAnnonceAction');
+$router->addRoute("/dashboard/annonces/delete/{id}", 'DashboardController@deleteAnnonceAction');
+$router->addRoute("/dashboard/annonces/show/{id}", 'DashboardController@showImages');
+$router->addRoute("/dashboard/annonces/images/save", 'DashboardController@saveImages');
+$router->addRoute("/dashboard/annonces/images/delete/{id}", 'DashboardController@deleteImageAction');
+$router->addRoute("/dashboard/annonces/images/update/{id}", 'DashboardController@updateImagesAction');
 
 
 
@@ -32,5 +42,5 @@ $router->addRoute("/dashboard/delete/{id}", 'AdminController@delete');
 //Demarrage du Router
 $router->start();
 
-// var_dump($_SESSION);
-// var_dump($_POST);
+var_dump($_SESSION);
+var_dump($_POST);

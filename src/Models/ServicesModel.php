@@ -2,38 +2,14 @@
 
 namespace App\Models;
 
+use App\Core\Database;
+
 /**
  * Echange de Donnees avec la table Services de la BDD
  */
 class ServicesModel extends Model
 {
-    /**
-     * Cle primaire
-     *
-     * @var integer
-     */
-    private int $id;
 
-    /**
-     * Titre du service.
-     *
-     * @var string
-     */
-    private string $titre;
-
-    /**
-     * Description du service
-     *
-     * @var string
-     */
-    private string $description;
-
-    /**
-     * Prix du service
-     *
-     * @var float
-     */
-    private float $prix;
 
     /**
      * Constructeur
@@ -43,71 +19,40 @@ class ServicesModel extends Model
         $this->table = "services";
     }
 
-    /**
-     * Get the value of id
-     */
-    public function getId()
+
+    public function createService(array $data): bool
     {
-        return $this->id;
+        $sql = "INSERT INTO $this->table (titre, description, prix) VALUES (:titre, :description, :prix)";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute([
+            'titre' => $data['titre'],
+            'description' => $data['description'],
+            'prix' => $data['prix'],
+        ]);
+
+        return $query->rowCount() > 0;
     }
 
-    /**
-     * Get the value of titre
-     */
-    public function getTitre()
+    public function updateService(int $id, array $data): bool
     {
-        return $this->titre;
+        $sql = "UPDATE $this->table SET titre = :titre, description = :description, prix = :prix WHERE id = :id";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute([
+            'id' => $id,
+            'titre' => $data['titre'],
+            'description' => $data['description'],
+            'prix' => $data['prix'],
+        ]);
+
+        return $query->rowCount() > 0;
     }
 
-    /**
-     * Set the value of titre
-     *
-     * @return  self
-     */
-    public function setTitre($titre)
+    public function deleteService(int $id): bool
     {
-        $this->titre = $titre;
+        $sql = "DELETE FROM $this->table WHERE id = :id";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute(['id' => $id]);
 
-        return $this;
-    }
-
-    /**
-     * Get the value of description
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set the value of description
-     *
-     * @return  self
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of prix
-     */
-    public function getPrix()
-    {
-        return $this->prix;
-    }
-
-    /**
-     * Set the value of prix
-     *
-     * @return  self
-     */
-    public function setPrix($prix)
-    {
-        $this->prix = $prix;
-
-        return $this;
+        return $query->rowCount() > 0;
     }
 }

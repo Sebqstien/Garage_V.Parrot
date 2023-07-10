@@ -12,44 +12,22 @@ use Twig\Loader\FilesystemLoader;
  */
 abstract class Controller
 {
+
     /**
-     * Informations du garage
+     * Recupere les informations du footer pour les injectes dans les vue.
      *
-     * @var array|null
+     * @return array|bool
      */
-    protected ?array $garage;
-
-    /**
-     * Horaires du garage.
-     *
-     * @var array|null
-     */
-    protected ?array $horaires;
-
-
-
-
-    /**
-     * Constructeur
-     */
-    public function __construct()
+    public function getFooterData(): array|bool
     {
-        $garageModel = new GaragesModel;
+        $garagesModel = new GaragesModel;
+        $informationsGarage = $garagesModel->findAll();
         $horairesModel = new HorairesModel;
-        $this->horaires = $horairesModel->findAll();
-        $this->garage = $garageModel->findAll();
-    }
+        $horaires = $horairesModel->findAll();
 
-    /**
-     * Recupere les informations du footer pour les injectes dans la vue.
-     *
-     * @return void
-     */
-    public function getFooterData()
-    {
         $footerData = array(
-            'garage' => $this->garage,
-            'horaires' => $this->horaires
+            'garage' => $informationsGarage,
+            'horaires' => $horaires
         );
         return $footerData;
     }
@@ -70,7 +48,13 @@ abstract class Controller
     }
 
 
-
+    /**
+     * Redirection Http
+     *
+     * @param string $route
+     * @param integer $http_code
+     * @return void
+     */
     public function redirect(string $route, int $http_code)
     {
         header('Status: 301 Moved Permanently', false, $http_code);

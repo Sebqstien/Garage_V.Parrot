@@ -2,9 +2,9 @@
 {% block content %}
 <div class="mt-4">
     <h2>{{ user.id is defined ? 'Modifier' : 'Ajouter' }} un utilisateur</h2>
-    <form action="/dashboard/save{{ user.id is defined ? '/' ~ user.id : '' }}" method="POST">
+    <form action="/dashboard/users/save{{ user.id is defined ? '/' ~ user.id : '' }}" method="POST">
         {% if user.id is defined %}
-        <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="id" value="{{ user.id }}">
         {% endif %}
         <div class="form-group">
             <label for="nom">Nom</label>
@@ -23,7 +23,13 @@
             <input type="password" class="form-control" id="password" name="password" {% if not user.id is defined
                 %}required{% endif %}>
         </div>
+        {% if user.id is not defined %}
+        <div class="form-group">
+            <label for="is_admin">Administrateur</label>
+            <input type="checkbox" id="is_admin" name="is_admin">
+        </div>
+        {% endif %}
         <button type="submit" class="btn btn-primary mt-3">{{ user.id is defined ? 'Modifier' : 'Ajouter' }}</button>
     </form>
 </div>
-{% endblock content %}
+{% endblock %}

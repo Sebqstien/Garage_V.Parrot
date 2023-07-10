@@ -1,0 +1,55 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+<div class="mt-4">
+    <h2>{{ annonce.id is defined ? 'Modifier' : 'Créer' }} une annonce</h2>
+    <form action="/dashboard/annonces/save{{ annonce is defined and annonce.id is defined ? '/' ~ annonce.id : '' }}"
+        method="POST" enctype="multipart/form-data">
+        {% if annonce is defined and annonce.id is defined %}
+        <input type="hidden" name="_method" value="PUT">
+        {% endif %}
+        <div class="form-group">
+            <label for="titre">Titre</label>
+            <input type="text" class="form-control" id="titre" name="titre" value="{{ annonce.titre ?? '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description"
+                required>{{ annonce.description ?? '' }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="marque">Marque</label>
+            <input type="text" class="form-control" id="marque" name="marque" value="{{ annonce.marque ?? '' }}"
+                required>
+        </div>
+        <div class="form-group">
+            <label for="modele">Modèle</label>
+            <input type="text" class="form-control" id="modele" name="modele" value="{{ annonce.modele ?? '' }}"
+                required>
+        </div>
+        <div class="form-group">
+            <label for="carburant">Carburant</label>
+            <input type="text" class="form-control" id="carburant" name="carburant"
+                value="{{ annonce.carburant ?? '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="prix">Prix</label>
+            <input type="number" class="form-control" id="prix" name="prix" value="{{ annonce.prix ?? 0 }}" required>
+        </div>
+        <div class="form-group">
+            <label for="kilometrage">Kilométrage</label>
+            <input type="text" class="form-control" id="kilometrage" name="kilometrage"
+                value="{{ annonce.kilometrage ?? '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="annee">Année</label>
+            <input type="text" class="form-control" id="annee" name="annee" value="{{ annonce.annee ?? '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="images">Images</label>
+            <input type="file" class="form-control-file" id="images" name="images[]" multiple>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">{{ annonce.id is defined ? 'Modifier' : 'Créer' }}</button>
+    </form>
+</div>
+{% endblock content %}

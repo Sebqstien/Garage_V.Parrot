@@ -1,27 +1,53 @@
 {% extends "base.html.twig" %}
 
 {% block content %}
-<ul>
-    {% for annonce in annonces %}
-    <li>
-        <h2>{{annonce.titre}}</h2>
-        <img src={{annonce.path_image}} alt="">
-        <h3>Description:</h3>
-        <h6>Date de mise en ligne: {{annonce.created_at|date("d/m/Y")}}</h6>
-        <ul>
-            <li>
-                <p>Marque: {{annonce.marque}}</p>
-            </li>
-            <li>
-                <p>Annee: {{annonce.annee}}</p>
-            </li>
-            <li>
-                <p>Kilometres: {{annonce.kilometrage}}</p>
-            </li>
-        </ul>
+<div class="container">
+    <h2>Annonces</h2>
 
-        <p>{{annonce.prix}} euros</p>
-    </li>
-    {% endfor %}
-</ul>
-{% endblock content %}
+    {% for annonce in annonces %}
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ annonce.titre }}</h5>
+            {% for image in annonce.images %}
+            <img src={{image}} alt="">
+            {% endfor %}
+            <h3>Description:</h3>
+            <h6>Date de mise en ligne: {{annonce.created_at|date("d/m/Y")}}</h6>
+            <ul>
+                <li>
+                    <p>Marque: {{annonce.marque}}</p>
+                </li>
+                <li>
+                    <p>Annee: {{annonce.annee}}</p>
+                </li>
+                <li>
+                    <p>Kilometres: {{annonce.kilometrage}}</p>
+                </li>
+            </ul>
+            <p>{{annonce.prix}} euros</p>
+            </li>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-{{ annonce.id }}">
+                Détails
+            </button>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modal-{{ annonce.id }}" tabindex="-1" role="dialog"
+            aria-labelledby="modalLabel-{{ annonce.id }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel-{{ annonce.id }}">Détails de l'annonce</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ annonce.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endblock content %}

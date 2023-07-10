@@ -19,19 +19,6 @@ abstract class Model extends Database
      */
     protected string $table;
 
-    /**
-     * Options de requete SQL
-     *
-     * @var string|null
-     */
-    protected ?string $options = null;
-
-    /**
-     * Jointure SQL
-     *
-     * @var string|null
-     */
-    protected ?string $jointure = null;
 
     /**
      * Base de donnee
@@ -41,7 +28,7 @@ abstract class Model extends Database
     protected Database $database;
 
 
-    public function hydrate($donnees)
+    public function hydrate(array $donnees): self
     {
         foreach ($donnees as $key => $value) {
 
@@ -60,7 +47,7 @@ abstract class Model extends Database
      */
     public function findAll(): array|bool
     {
-        $sql = "SELECT * FROM " . $this->table . $this->jointure . $this->options;
+        $sql = "SELECT * FROM " . $this->table;
         $query = Database::getInstance()->query($sql);
         return $query->fetchAll();
     }
@@ -87,11 +74,26 @@ abstract class Model extends Database
      * @param integer $id
      * @return array|boolean
      */
-    public function findBy(string $row, string $primary_key, int $id): array|bool
+    public function findBy(string $row, string $foreign_key, int $id): array|bool
     {
-        $sql = "SELECT $row FROM {$this->table} WHERE $primary_key = $id";
+        $sql = "SELECT $row FROM {$this->table} WHERE $foreign_key = $id";
         $query = Database::getInstance()->prepare($sql);
         $query->execute();
         return $query->fetchAll();
+    }
+
+
+    /**
+     * Supprime une entite en BDD
+     *
+     * @param integer $id
+     * @return boolean
+     */
+    public function delete(int $id): bool
+    {
+        $sql = "DELETE FROM {$this->table} WHERE id = :id";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute(['id' => $id]);
+        return true;
     }
 }

@@ -19,7 +19,6 @@ class MainController extends Controller
         $footerData = $this->getFooterData();
         $servicesModel = new ServicesModel;
         $services = $servicesModel->findAll();
-        $garage = $this->garage;
         $this->render('/main/index.html.twig', compact('services', 'footerData'));
     }
 }

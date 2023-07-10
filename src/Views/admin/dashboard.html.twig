@@ -1,0 +1,125 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+<h1>Dashboard</h1>
+<div>
+    <h3>Bonjour Mr {{ session.user['nom'] }}</h3>
+    <a href="/logout">Se déconnecter</a>
+</div>
+
+<div class="container">
+    <h1>Dashboard</h1>
+    <hr>
+
+    <!-- Navigation -->
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link {% if currentTab == 'annonces' %}active{% endif %}" href="/dashboard">Annonces</a>
+        </li>
+        {% if isAdmin %}
+        <li class="nav-item">
+            <a class="nav-link {% if currentTab == 'users' %}active{% endif %}" href="/dashboard/users">Utilisateurs</a>
+        </li>
+        {% endif %}
+
+        <!-- Ajoutez ici les autres liens de navigation pour gérer les autres fonctionnalités -->
+    </ul>
+
+    {% if currentTab == 'annonces' %}
+
+    <!-- Contenu du tableau des annonces -->
+    <div class="table-responsive mt-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Marque</th>
+                    <th>Modèle</th>
+                    <th>Carburant</th>
+                    <th>Prix</th>
+                    <th>Kilométrage</th>
+                    <th>Année</th>
+                    <th>Images</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for annonce in annonces %}
+                <tr>
+                    <td>{{ annonce.id }}</td>
+                    <td>{{ annonce.titre }}</td>
+                    <td>{{ annonce.description }}</td>
+                    <td>{{ annonce.marque }}</td>
+                    <td>{{ annonce.modele }}</td>
+                    <td>{{ annonce.carburant }}</td>
+                    <td>{{ annonce.prix }}</td>
+                    <td>{{ annonce.kilometrage }}</td>
+                    <td>{{ annonce.annee }}</td>
+                    <td>
+                        <h6 class="text-center">Images</h6>
+                        {% for image in annonce.images %}
+                        <img src='/{{ image }}' alt="Miniature" class="img-thumbnail">
+                        {% endfor %}
+
+                    </td>
+                    <td>
+                        <a href="/dashboard/annonces/show/{{ annonce.id }}" class="btn btn-secondary">Gerer Images</a>
+                        <a href="/dashboard/annonces/edit/{{ annonce.id }}" class="btn btn-primary">Modifier</a>
+                        <a href="/dashboard/annonces/delete/{{ annonce.id }}" class="btn btn-danger">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% elseif currentTab == 'users' %}
+    <!-- Contenu du tableau des utilisateurs -->
+    <div class="table-responsive mt-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Admin</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.nom }}</td>
+                    <td>{{ user.prenom }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.is_admin }}</td>
+                    {% if isAdmin %}
+                    <td>
+                        <a href="/dashboard/users/edit/{{ user.id }}" class="btn btn-primary">Modifier</a>
+                        <a href="/dashboard/users/delete/{{ user.id }}" class="btn btn-danger">Supprimer</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bouton Ajouter utilisateur -->
+    {% if isAdmin %}
+    <div class="mt-4">
+        <a href="/dashboard/users/create" class="btn btn-success">Ajouter un utilisateur</a>
+    </div>
+    {% endif %}
+    {% endif %}
+
+    <!-- Bouton Ajouter une annonce -->
+    <div class="mt-4">
+        <a href="/dashboard/annonces/create" class="btn btn-success">Ajouter une annonce</a>
+    </div>
+</div>
+{% endblock content %}

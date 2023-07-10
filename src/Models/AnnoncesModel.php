@@ -2,80 +2,15 @@
 
 namespace App\Models;
 
+use PDO;
+use App\Core\Database;
+
 /**
  * Echange de Donnees avec la table Annonces de la BDD
  */
 class AnnoncesModel extends Model
 {
-    /**
-     * Cle primaire
-     *
-     * @var integer
-     */
-    private int $id;
 
-    /**
-     * Titre de l'annonce
-     *
-     * @var string
-     */
-    private string $titre;
-
-    /**
-     * Description de l'annonce
-     *
-     * @var string|null
-     */
-    private ?string $description;
-
-    /**
-     * marque du vehicule
-     *
-     * @var string|null
-     */
-    private ?string $marque;
-
-    /**
-     * Modele du vehicule
-     *
-     * @var string|null
-     */
-    private ?string $modele;
-
-    /**
-     * Type carburant du vehicule
-     *
-     * @var string|null
-     */
-    private ?string $carburant;
-
-    /**
-     * Prix du vehicule
-     *
-     * @var string
-     */
-    private string $prix;
-
-    /**
-     * Kilometrage du vehicule
-     *
-     * @var string
-     */
-    private string $kilometrage;
-
-    /**
-     * Annee de mise encirculation du vehicule
-     *
-     * @var string|null
-     */
-    private ?string $annee;
-
-    /**
-     * Date de creation de l'annonce
-     *
-     * @var string|null
-     */
-    protected ?string $created_at;
 
     /**
      * Constructeur
@@ -83,194 +18,168 @@ class AnnoncesModel extends Model
     public function __construct()
     {
         $this->table = "annonces";
-        $this->jointure = " INNER JOIN images ON annonces.id = images.id_voiture";
-        $this->options = " WHERE is_first = 1 ORDER BY created_at DESC;";
     }
 
-
-
-    /**
-     * Get the value of id
-     */
-    public function getId()
+    public function findAllAnnoncesWithImages(): array
     {
-        return $this->id;
+        $sql = "SELECT annonces.*, images.path_image
+                FROM annonces
+                LEFT JOIN images ON annonces.id = images.id_voiture
+                ORDER BY annonces.id";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute();
+
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        $annonces = [];
+        $currentAnnonce = null;
+
+        foreach ($result as $row) {
+            $annonceId = $row['id'];
+
+            if (!$currentAnnonce || $currentAnnonce['id'] !== $annonceId) {
+                if ($currentAnnonce) {
+                    $annonces[] = $currentAnnonce;
+                }
+
+                $currentAnnonce = [
+                    'id' => $annonceId,
+                    'titre' => $row['titre'],
+                    'description' => $row['description'],
+                    'marque' => $row['marque'],
+                    'modele' => $row['modele'],
+                    'carburant' => $row['carburant'],
+                    'prix' => $row['prix'],
+                    'kilometrage' => $row['kilometrage'],
+                    'images' => [],
+                ];
+            }
+
+            if ($row['path_image']) {
+                $currentAnnonce['images'][] = $row['path_image'];
+            }
+        }
+
+        if ($currentAnnonce) {
+            $annonces[] = $currentAnnonce;
+        }
+
+        return $annonces;
     }
 
 
-    /**
-     * Get the value of titre
-     */
-    public function getTitre()
-    {
-        return $this->titre;
-    }
+
 
     /**
-     * Set the value of titre
+     * Insere une annonce et ses images associees en BDD.
      *
-     * @return  self
+     * @param array $data Data des annonces a creer dans la BDD.
+     * @param array $images Tableau des images de l'annonce.
+     * @return bool Retourne true si la création est réussie, sinon false.
      */
-    public function setTitre($titre)
+    public function createAnnonce(array $data, array $images): bool
     {
-        $this->titre = $titre;
+        $sql = "INSERT INTO annonces (titre, description, marque, modele, carburant, prix, kilometrage, annee)
+            VALUES (:titre, :description, :marque, :modele, :carburant, :prix, :kilometrage, :annee)";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute([
+            'titre' => $data['titre'],
+            'description' => $data['description'],
+            'marque' => $data['marque'],
+            'modele' => $data['modele'],
+            'carburant' => $data['carburant'],
+            'prix' => $data['prix'],
+            'kilometrage' => $data['kilometrage'],
+            'annee' => $data['annee'],
+        ]);
 
-        return $this;
+        $annonceId = Database::getInstance()->lastInsertId();
+
+        $sql = "INSERT INTO images (path_image, id_voiture) VALUES (:path, :voitureId)";
+        $query = Database::getInstance()->prepare($sql);
+
+        foreach ($images as $image) {
+            $query->execute([
+                'path' => $image,
+                'voitureId' => $annonceId,
+            ]);
+        }
+
+        return true;
     }
 
     /**
-     * Get the value of description
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set the value of description
+     * Modifie une annonce et les images associees en BDD.
      *
-     * @return  self
+     * @param integer $annonceId
+     * @param array $data
+     * @param array $images
+     * @return boolean
      */
-    public function setDescription($description)
+    public function updateAnnonce(int $annonceId, array $data, array $images): bool
     {
-        $this->description = $description;
+        $sql = "UPDATE annonces
+            SET titre = :titre, description = :description, marque = :marque, modele = :modele, carburant = :carburant,
+                prix = :prix, kilometrage = :kilometrage, annee = :annee
+            WHERE id = :annonceId";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute([
+            'titre' => $data['titre'],
+            'description' => $data['description'],
+            'marque' => $data['marque'],
+            'modele' => $data['modele'],
+            'carburant' => $data['carburant'],
+            'prix' => $data['prix'],
+            'kilometrage' => $data['kilometrage'],
+            'annee' => $data['annee'],
+            'annonceId' => $annonceId,
+        ]);
 
-        return $this;
+        $sql = "DELETE FROM images WHERE id_voiture = :annonceId";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute(['annonceId' => $annonceId]);
+
+        $sql = "INSERT INTO images (path_image, id_voiture) VALUES (:path, :voitureId)";
+        $query = Database::getInstance()->prepare($sql);
+
+        foreach ($images as $image) {
+            $query->execute([
+                'path' => $image,
+                'voitureId' => $annonceId,
+            ]);
+        }
+
+        return true;
     }
 
     /**
-     * Get the value of created_at
-     */
-    public function getCreated_at()
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * Get the value of marque
-     */
-    public function getMarque()
-    {
-        return $this->marque;
-    }
-
-    /**
-     * Set the value of marque
+     * Supprime une annonce et les images associees.
      *
-     * @return  self
+     * @param integer $annonceId
+     * @return boolean
      */
-    public function setMarque($marque)
+    public function deleteAnnonceWithImages(int $annonceId): bool
     {
-        $this->marque = $marque;
+        $sql = "SELECT path_image FROM images WHERE id_voiture = :annonceId";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute(['annonceId' => $annonceId]);
+        $images = $query->fetchAll(PDO::FETCH_COLUMN);
 
-        return $this;
-    }
+        foreach ($images as $image) {
+            $path = 'upload/' . $image;
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
 
-    /**
-     * Get the value of modele
-     */
-    public function getModele()
-    {
-        return $this->modele;
-    }
+        $sql = "DELETE FROM images WHERE id_voiture = :annonceId";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute(['annonceId' => $annonceId]);
 
-    /**
-     * Set the value of modele
-     *
-     * @return  self
-     */
-    public function setModele($modele)
-    {
-        $this->modele = $modele;
+        $sql = "DELETE FROM annonces WHERE id = :annonceId";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute(['annonceId' => $annonceId]);
 
-        return $this;
-    }
-
-    /**
-     * Get the value of carburant
-     */
-    public function getCarburant()
-    {
-        return $this->carburant;
-    }
-
-    /**
-     * Set the value of carburant
-     *
-     * @return  self
-     */
-    public function setCarburant($carburant)
-    {
-        $this->carburant = $carburant;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of prix
-     */
-    public function getPrix()
-    {
-        return $this->prix;
-    }
-
-    /**
-     * Set the value of prix
-     *
-     * @return  self
-     */
-    public function setPrix($prix)
-    {
-        $this->prix = $prix;
-
-        return $this;
-    }
-
-    /**
-     * Get kilometrage du vehicule
-     *
-     * @return  string
-     */
-    public function getKilometrage()
-    {
-        return $this->kilometrage;
-    }
-
-    /**
-     * Set kilometrage du vehicule
-     *
-     * @param  string  $kilometrage  Kilometrage du vehicule
-     *
-     * @return  self
-     */
-    public function setKilometrage(string $kilometrage)
-    {
-        $this->kilometrage = $kilometrage;
-
-        return $this;
-    }
-
-    /**
-     * Get annee de mise encirculation du vehicule
-     *
-     * @return  string|null
-     */
-    public function getAnnee()
-    {
-        return $this->annee;
-    }
-
-    /**
-     * Set annee de mise encirculation du vehicule
-     *
-     * @param  string|null  $annee  Annee de mise encirculation du vehicule
-     *
-     * @return  self
-     */
-    public function setAnnee($annee)
-    {
-        $this->annee = $annee;
-
-        return $this;
+        return true;
     }
 }
