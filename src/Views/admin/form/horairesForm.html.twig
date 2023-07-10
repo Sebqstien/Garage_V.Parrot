@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+{% block content %}
+<div class="mt-4">
+    <h2>Modifier un Horaire</h2>
+    <form action="/dashboard/horaires/save/{{ horaires.id }}" method="POST">
+        {% if horaires.id is defined %}
+        <input type="hidden" name="id" value="{{ horaires.id }}">
+        {% endif %}
+        <div class="form-group">
+            <label for="jours_ouverture">Jours d'ouvertures</label>
+            <input type="text" class="form-control" id="jours_ouverture" name="jours_ouverture"
+                value="{{ horaires.jours_ouverture ?? '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="heures_PM">Heures Matin</label>
+            <input type="text" class="form-control" id="heures_PM" name="heures_PM"
+                value="{{ horaires.heures_PM ?? '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="heures_AM">Telephone</label>
+            <input type="text" class="form-control" id="heures_AM" name="heures_AM"
+                value="{{ horaires.heures_AM ?? '' }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Modifier</button>
+    </form>
+</div>
+{% endblock %}

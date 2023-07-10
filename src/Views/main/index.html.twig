@@ -3,9 +3,17 @@
 {% block content %}
 <h1>ACCUEIL</h1>
 
+<h5>Services du garage</h5>
 {% for service in services %}
 <h3>{{service.titre}}</h3>
 <p>{{service.prix}} euro</p>
 <p>{{service.description}}</p>
+{% endfor %}
+
+<h5>Avis Clients</h5>
+{% for item in avis %}
+<p>{{item.nom}}</p>
+<p>{{item.note}} /5</p>
+<p>{{item.commentaire_avis}}</p>
 {% endfor %}
 {% endblock content %}

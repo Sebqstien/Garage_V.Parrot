@@ -2,45 +2,13 @@
 
 namespace App\Models;
 
+use App\Core\Database;
+
 /**
  * Echange de Donnees avec la table Garages de la BDD
  */
 class GaragesModel extends Model
 {
-    /**
-     * Cle primaire
-     *
-     * @var integer
-     */
-    private int $id;
-
-    /**
-     * Nom du garage
-     *
-     * @var string
-     */
-    private string $nom;
-
-    /**
-     * Email du garage
-     *
-     * @var string
-     */
-    private string $email;
-
-    /**
-     * Telephone du garage
-     *
-     * @var integer
-     */
-    private int $telephone;
-
-    /**
-     * Adresse du garage
-     *
-     * @var string
-     */
-    private string $adresse;
 
 
     /**
@@ -51,100 +19,45 @@ class GaragesModel extends Model
         $this->table = 'garages';
     }
 
-    /**
-     * Get the value of id
-     */
-    public function getId()
+    public function createGarage(array $data): bool
     {
-        return $this->id;
+        $sql = "INSERT INTO $this->table (nom, email, telephone, adresse) VALUES (:nom, :email, :telephone, :adresse)";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute([
+            'nom' => $data['nom'],
+            'email' => $data['email'],
+            'telephone' => $data['telephone'],
+            'adresse' => $data['adresse']
+        ]);
+
+        return $query->rowCount() > 0;
     }
 
 
-    public function setId(int $id)
-    {
-        $this->id = $id;
 
-        return $this;
+    public function updateGarage(int $id, array $data): bool
+    {
+        $sql = "UPDATE $this->table SET nom = :nom, email = :email, telephone = :telephone, adresse = :adresse WHERE id = :id";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute([
+            'id' => $id,
+            'nom' => $data['nom'],
+            'email' => $data['email'],
+            'telephone' => $data['prixtelephone'],
+            'adresse' => $data['adresse']
+        ]);
+
+        return $query->rowCount() > 0;
     }
 
 
-    /**
-     * Get the value of nom
-     */
-    public function getNom()
+
+    public function deleteGarage(int $id): bool
     {
-        return $this->nom;
-    }
+        $sql = "DELETE FROM $this->table WHERE id = :id";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute(['id' => $id]);
 
-    /**
-     * Set the value of nom
-     *
-     * @return  self
-     */
-    public function setNom($nom)
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of email
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set the value of email
-     *
-     * @return  self
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of telephone
-     */
-    public function getTelephone()
-    {
-        return $this->telephone;
-    }
-
-    /**
-     * Set the value of telephone
-     *
-     * @return  self
-     */
-    public function setTelephone($telephone)
-    {
-        $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of adresse
-     */
-    public function getAdresse()
-    {
-        return $this->adresse;
-    }
-
-    /**
-     * Set the value of adresse
-     *
-     * @return  self
-     */
-    public function setAdresse($adresse)
-    {
-        $this->adresse = $adresse;
-
-        return $this;
+        return $query->rowCount() > 0;
     }
 }

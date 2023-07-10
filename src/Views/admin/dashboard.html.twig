@@ -8,9 +8,6 @@
 </div>
 
 <div class="container">
-    <h1>Dashboard</h1>
-    <hr>
-
     <!-- Navigation -->
     <ul class="nav nav-pills">
         <li class="nav-item">
@@ -24,9 +21,14 @@
             <a class="nav-link {% if currentTab == 'services' %}active{% endif %}"
                 href="/dashboard/services">Services</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link {% if currentTab == 'garages' %}active{% endif %}" href="/dashboard/garages">Garages</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if currentTab == 'horaires' %}active{% endif %}"
+                href="/dashboard/horaires">Horaires</a>
+        </li>
         {% endif %}
-
-        <!-- Ajoutez ici les autres liens de navigation pour gérer les autres fonctionnalités -->
     </ul>
 
     {% if currentTab == 'annonces' %}
@@ -82,6 +84,7 @@
         </div>
     </div>
 
+
     {% elseif currentTab == 'users' %}
     <!-- Contenu du tableau des utilisateurs -->
     <div class="table-responsive mt-4">
@@ -118,9 +121,10 @@
         <div class="mt-4">
             <a href="/dashboard/users/create" class="btn btn-success">Ajouter un utilisateur</a>
         </div>
+        {% endif %}
     </div>
 
-    {% endif %}
+
 
     {% elseif currentTab == 'services' %}
     <!-- Contenu du tableau des services -->
@@ -147,8 +151,8 @@
                         <a href="/dashboard/services/edit/{{ service.id }}" class="btn btn-primary">Modifier</a>
                         <a href="/dashboard/services/delete/{{ service.id }}" class="btn btn-danger">Supprimer</a>
                     </td>
+                    {% endif %}
                 </tr>
-                {% endif %}
                 {% endfor %}
             </tbody>
         </table>
@@ -157,9 +161,90 @@
         <div class="mt-4">
             <a href="/dashboard/services/create" class="btn btn-success">Ajouter un service</a>
         </div>
+        {% endif %}
     </div>
 
+
+    {% elseif currentTab == 'garages' %}
+    <!-- Contenu du tableau des garages -->
+    <div class="table-responsive mt-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Adresse</th>
+                    {% if isAdmin %}
+                    <th>Action</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in garages %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.nom }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>0{{ item.telephone }}</td>
+                    <td>{{ item.adresse }}</td>
+                    {% if isAdmin %}
+                    <td>
+                        <a href="/dashboard/garages/edit/{{ item.id }}" class="btn btn-primary">Modifier</a>
+                        <a href="/dashboard/garages/delete/{{ item.id }}" class="btn btn-danger">Supprimer</a>
+
+                    </td>
+                    {% endif %}
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if isAdmin %}
+        <div class="mt-4">
+            <a href="/dashboard/garages/create" class="btn btn-success">Ajouter un Garage</a>
+        </div>
+        {% endif %}
+    </div>
+
+    {% elseif currentTab == 'horaires' %}
+    <!-- Contenu du tableau des horaires -->
+    <div class="table-responsive mt-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>jours d'ouvertures</th>
+                    <th>Heure Matin</th>
+                    <th>Heure Apres-midi</th>
+
+                    {% if isAdmin %}
+                    <th>Action</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in horaires %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.jours_ouverture }}</td>
+                    <td>{{ item.heures_PM }}</td>
+                    <td>{{ item.heures_AM }}</td>
+                    {% if isAdmin %}
+                    <td>
+                        <a href="/dashboard/horaires/edit/{{ item.id }}" class="btn btn-primary">Modifier</a>
+                    </td>
+                    {% endif %}
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {% endif %}
-    {% endif %}
+
+
 </div>
 {% endblock content %}

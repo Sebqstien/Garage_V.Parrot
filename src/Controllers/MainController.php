@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\AvisModel;
 use App\Models\ServicesModel;
 
 /**
@@ -9,6 +10,18 @@ use App\Models\ServicesModel;
  */
 class MainController extends Controller
 {
+
+    private ServicesModel $servicesModel;
+    private AvisModel $avisModel;
+
+
+    public function __construct()
+    {
+        $this->servicesModel = new ServicesModel;
+        $this->avisModel = new AvisModel;
+    }
+
+
     /**
      * Recupere les donnees en BDD et genere la vue de la page d'accueil.
      *
@@ -17,8 +30,8 @@ class MainController extends Controller
     public function index(): void
     {
         $footerData = $this->getFooterData();
-        $servicesModel = new ServicesModel;
-        $services = $servicesModel->findAll();
-        $this->render('/main/index.html.twig', compact('services', 'footerData'));
+        $services = $this->servicesModel->findAll();
+        $avis = $this->avisModel->findAll();
+        $this->render('/main/index.html.twig', compact('services', 'avis', 'footerData'));
     }
 }

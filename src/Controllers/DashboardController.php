@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 use App\Models\AnnoncesModel;
+use App\Models\GaragesModel;
+use App\Models\HorairesModel;
 use App\Models\ImagesModel;
 use App\Models\ServicesModel;
 
@@ -13,6 +15,8 @@ class DashboardController extends LoginController
     private AnnoncesModel $annoncesModel;
     private ImagesModel $imagesModel;
     private ServicesModel $servicesModel;
+    private HorairesModel $horairesModel;
+    private GaragesModel $garageModel;
 
     public function __construct()
     {
@@ -20,6 +24,8 @@ class DashboardController extends LoginController
         $this->annoncesModel = new AnnoncesModel();
         $this->imagesModel = new ImagesModel();
         $this->servicesModel = new ServicesModel();
+        $this->horairesModel = new HorairesModel();
+        $this->garageModel = new GaragesModel();
     }
 
     public function index()
@@ -32,10 +38,12 @@ class DashboardController extends LoginController
             $user = $this->usersModel->findOneByEmail($userEmail);
             $annonces = $this->annoncesModel->findAllAnnoncesWithImages();
 
+
             if ($user && $user['is_admin'] === 1) {
                 $users = $this->usersModel->findAll();
                 $services = $this->servicesModel->findAll();
-
+                $garages = $this->garageModel->findAll();
+                $horaires = $this->horairesModel->findAll();
 
                 if ($_SERVER['REQUEST_URI'] === '/dashboard/users') {
                     $this->render('/admin/dashboard.html.twig', [
@@ -52,6 +60,26 @@ class DashboardController extends LoginController
                             'services' => $services,
                             'isAdmin' => true,
                             'currentTab' => 'services',
+                            'user' => $user
+                        ]
+                    );
+                } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/garages') {
+                    $this->render(
+                        '/admin/dashboard.html.twig',
+                        [
+                            'garages' => $garages,
+                            'isAdmin' => true,
+                            'currentTab' => 'garages',
+                            'user' => $user
+                        ]
+                    );
+                } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/horaires') {
+                    $this->render(
+                        '/admin/dashboard.html.twig',
+                        [
+                            'horaires' => $horaires,
+                            'isAdmin' => true,
+                            'currentTab' => 'horaires',
                             'user' => $user
                         ]
                     );
@@ -133,6 +161,47 @@ class DashboardController extends LoginController
             exit;
         }
     }
+
+
+    /**
+     * Genere la vue du formulaire de creation ou de modification d'un service.
+     *
+     * @param integer|null $id en cas de modification.
+     * @return void
+     */
+    public function showGarageForm(int $id = null): void
+    {
+        if ($_SESSION['user']['is_admin'] == 1) {
+            $garage = ($id) ? $this->garageModel->find($id) : null;
+
+            $template = '/admin/form/garageForm.html.twig';
+            $this->render($template, ['garage' => $garage]);
+        } else {
+            $this->redirect('/', 301);
+            exit;
+        }
+    }
+
+
+    /**
+     * Genere la vue du formulaire de creation ou de modification d'un service.
+     *
+     * @param integer|null $id en cas de modification.
+     * @return void
+     */
+    public function showHorairesForm(int $id = null): void
+    {
+        if ($_SESSION['user']['is_admin'] == 1) {
+            $horaires = $this->horairesModel->find($id);
+
+            $template = '/admin/form/horairesForm.html.twig';
+            $this->render($template, ['horaires' => $horaires]);
+        } else {
+            $this->redirect('/', 301);
+            exit;
+        }
+    }
+
 
 
     public function createAnnonceAction()
@@ -387,7 +456,7 @@ class DashboardController extends LoginController
     }
 
 
-    public function editServiceAction($id)
+    public function editServiceAction(int $id): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SESSION['user']['is_admin'] == true) {
             $data = [
@@ -409,5 +478,66 @@ class DashboardController extends LoginController
 
         $this->redirect('/dashboard/services', 301);
         exit();
+    }
+
+
+    public function createGaragesAction(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SESSION['user']['is_admin'] == true) {
+            $data = [
+                'nom' => $_POST['nom'] ?? '',
+                'email' => $_POST['email'] ?? '',
+                'telephone' => $_POST['telephone'] ?? '',
+                'adresse' => $_POST['adresse'] ?? ''
+            ];
+
+            $this->garageModel->createGarage($data);
+
+            $this->redirect('/dashboard/garages', 301);
+            exit();
+        }
+    }
+
+
+
+    public function editGaragesAction(int $id): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SESSION['user']['is_admin'] == true) {
+            $data = [
+                'nom' => $_POST['nom'] ?? '',
+                'email' => $_POST['email'] ?? '',
+                'telephone' => $_POST['telephone'] ?? '',
+                'adresse' => $_POST['adresse'] ?? ''
+            ];
+
+            $this->garageModel->updateGarage($id, $data);
+            $this->redirect('/dashboard/garages', 301);
+            exit();
+        }
+    }
+
+
+    public function deleteGaragesAction(int $id)
+    {
+        $this->garageModel->deleteGarage($id);
+
+        $this->redirect('/dashboard/garages', 301);
+        exit();
+    }
+
+
+    public function editHorairesAction(int $id): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SESSION['user']['is_admin'] == true) {
+            $data = [
+                'jours_ouverture' => $_POST['jours_ouverture'] ?? '',
+                'heures_PM' => $_POST['heures_PM'] ?? '',
+                'heures_AM' => $_POST['heures_AM'] ?? ''
+            ];
+
+            $this->horairesModel->editHoraires($id, $data);
+            $this->redirect('/dashboard/horaires', 301);
+            exit();
+        }
     }
 }
