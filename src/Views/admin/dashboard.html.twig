@@ -20,6 +20,10 @@
         <li class="nav-item">
             <a class="nav-link {% if currentTab == 'users' %}active{% endif %}" href="/dashboard/users">Utilisateurs</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link {% if currentTab == 'services' %}active{% endif %}"
+                href="/dashboard/services">Services</a>
+        </li>
         {% endif %}
 
         <!-- Ajoutez ici les autres liens de navigation pour gérer les autres fonctionnalités -->
@@ -73,6 +77,9 @@
                 {% endfor %}
             </tbody>
         </table>
+        <div class="mt-4">
+            <a href="/dashboard/annonces/create" class="btn btn-success">Ajouter une annonce</a>
+        </div>
     </div>
 
     {% elseif currentTab == 'users' %}
@@ -102,24 +109,57 @@
                         <a href="/dashboard/users/edit/{{ user.id }}" class="btn btn-primary">Modifier</a>
                         <a href="/dashboard/users/delete/{{ user.id }}" class="btn btn-danger">Supprimer</a>
                     </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if isAdmin %}
+        <div class="mt-4">
+            <a href="/dashboard/users/create" class="btn btn-success">Ajouter un utilisateur</a>
+        </div>
+    </div>
+
+    {% endif %}
+
+    {% elseif currentTab == 'services' %}
+    <!-- Contenu du tableau des services -->
+    <div class="table-responsive mt-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service in services %}
+                <tr>
+                    <td>{{ service.id }}</td>
+                    <td>{{ service.titre }}</td>
+                    <td>{{ service.description }}</td>
+                    <td>{{ service.prix }}€</td>
+
+                    {% if isAdmin %}
+                    <td>
+                        <a href="/dashboard/services/edit/{{ service.id }}" class="btn btn-primary">Modifier</a>
+                        <a href="/dashboard/services/delete/{{ service.id }}" class="btn btn-danger">Supprimer</a>
+                    </td>
                 </tr>
                 {% endif %}
                 {% endfor %}
             </tbody>
         </table>
+
+        {% if isAdmin %}
+        <div class="mt-4">
+            <a href="/dashboard/services/create" class="btn btn-success">Ajouter un service</a>
+        </div>
     </div>
 
-    <!-- Bouton Ajouter utilisateur -->
-    {% if isAdmin %}
-    <div class="mt-4">
-        <a href="/dashboard/users/create" class="btn btn-success">Ajouter un utilisateur</a>
-    </div>
     {% endif %}
     {% endif %}
-
-    <!-- Bouton Ajouter une annonce -->
-    <div class="mt-4">
-        <a href="/dashboard/annonces/create" class="btn btn-success">Ajouter une annonce</a>
-    </div>
 </div>
 {% endblock content %}

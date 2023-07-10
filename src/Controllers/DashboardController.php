@@ -5,18 +5,21 @@ namespace App\Controllers;
 use App\Models\UsersModel;
 use App\Models\AnnoncesModel;
 use App\Models\ImagesModel;
+use App\Models\ServicesModel;
 
 class DashboardController extends LoginController
 {
     private UsersModel $usersModel;
     private AnnoncesModel $annoncesModel;
     private ImagesModel $imagesModel;
+    private ServicesModel $servicesModel;
 
     public function __construct()
     {
         $this->usersModel = new UsersModel();
         $this->annoncesModel = new AnnoncesModel();
         $this->imagesModel = new ImagesModel();
+        $this->servicesModel = new ServicesModel();
     }
 
     public function index()
@@ -27,10 +30,11 @@ class DashboardController extends LoginController
         if (isset($_SESSION['user'])) {
             $userEmail = $_SESSION['user']['email'];
             $user = $this->usersModel->findOneByEmail($userEmail);
+            $annonces = $this->annoncesModel->findAllAnnoncesWithImages();
 
             if ($user && $user['is_admin'] === 1) {
                 $users = $this->usersModel->findAll();
-                $annonces = $this->annoncesModel->findAllAnnoncesWithImages();
+                $services = $this->servicesModel->findAll();
 
 
                 if ($_SERVER['REQUEST_URI'] === '/dashboard/users') {
@@ -41,6 +45,16 @@ class DashboardController extends LoginController
                         'currentTab' => 'users',
                         'user' => $user
                     ]);
+                } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/services') {
+                    $this->render(
+                        '/admin/dashboard.html.twig',
+                        [
+                            'services' => $services,
+                            'isAdmin' => true,
+                            'currentTab' => 'services',
+                            'user' => $user
+                        ]
+                    );
                 } else {
 
                     $this->render('/admin/dashboard.html.twig', [
@@ -51,11 +65,8 @@ class DashboardController extends LoginController
                     ]);
                 }
             } else {
-                $annonces = $this->annoncesModel->findAllAnnoncesWithImages();
-
                 $this->render('/admin/dashboard.html.twig', [
                     'annonces' => $annonces,
-                    'isAdmin' => false,
                     'user' => $user,
                     'currentTab' => 'annonces',
                 ]);
@@ -63,18 +74,6 @@ class DashboardController extends LoginController
         } else {
             $this->redirect('/login', 301);
             $_SESSION['erreur'] = "Vous n'avez pas accès à cette zone";
-        }
-    }
-
-    public function showImages(int $id): void
-    {
-        if (isset($_SESSION['user'])) {
-            $annonce = $this->annoncesModel->find($id);
-            $images = $this->imagesModel->findBy("path_image, id_image", "id_voiture", $id);
-            $this->render('admin/showImages.html.twig', [
-                'images' => $images,
-                'annonce' => $annonce
-            ]);
         }
     }
 
@@ -87,7 +86,7 @@ class DashboardController extends LoginController
      */
     public function showUserForm(int $id = null): void
     {
-        if ($_SESSION['user']['is_admin'] !== true) {
+        if ($_SESSION['user']['is_admin'] === 1) {
             $this->redirect('/', 301);
             exit;
         } else {
@@ -107,9 +106,28 @@ class DashboardController extends LoginController
     {
         if (isset($_SESSION['user'])) {
             $annonce = ($id) ? $this->annoncesModel->find($id) : null;
-            var_dump($annonce);
             $template = '/admin/form/annonceForm.html.twig';
             $this->render($template, ['annonce' => $annonce]);
+        } else {
+            $this->redirect('/', 301);
+            exit;
+        }
+    }
+
+
+    /**
+     * Genere la vue du formulaire de creation ou de modification d'un service.
+     *
+     * @param integer|null $id en cas de modification.
+     * @return void
+     */
+    public function showServiceForm(int $id = null): void
+    {
+        if ($_SESSION['user']['is_admin'] == 1) {
+            $service = ($id) ? $this->servicesModel->find($id) : null;
+
+            $template = '/admin/form/serviceForm.html.twig';
+            $this->render($template, ['service' => $service]);
         } else {
             $this->redirect('/', 301);
             exit;
@@ -158,6 +176,18 @@ class DashboardController extends LoginController
         $this->render('/admin/form/annonceForm.html.twig');
     }
 
+
+    public function showImages(int $id): void
+    {
+        if (isset($_SESSION['user'])) {
+            $annonce = $this->annoncesModel->find($id);
+            $images = $this->imagesModel->findBy("path_image, id_image", "id_voiture", $id);
+            $this->render('admin/showImages.html.twig', [
+                'images' => $images,
+                'annonce' => $annonce
+            ]);
+        }
+    }
 
 
     /**
@@ -320,7 +350,7 @@ class DashboardController extends LoginController
                 $this->usersModel->createUser($data);
             }
 
-            $this->redirect('/dashboard', 301);
+            $this->redirect('/dashboard/users', 301);
             exit();
         }
     }
@@ -338,5 +368,46 @@ class DashboardController extends LoginController
         }
         $this->redirect('/dashboard', 301);
         exit;
+    }
+
+    public function createServiceAction(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SESSION['user']['is_admin'] == true) {
+            $data = [
+                'titre' => $_POST['titre'] ?? '',
+                'description' => $_POST['description'] ?? '',
+                'prix' => $_POST['prix'] ?? ''
+            ];
+
+            $this->servicesModel->createService($data);
+
+            $this->redirect('/dashboard/services', 301);
+            exit();
+        }
+    }
+
+
+    public function editServiceAction($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SESSION['user']['is_admin'] == true) {
+            $data = [
+                'titre' => $_POST['titre'] ?? '',
+                'description' => $_POST['description'] ?? '',
+                'prix' => $_POST['prix'] ?? ''
+            ];
+
+            $this->servicesModel->updateService($id, $data);
+            $this->redirect('/dashboard/services', 301);
+            exit();
+        }
+    }
+
+
+    public function deleteServiceAction(int $id)
+    {
+        $this->servicesModel->deleteService($id);
+
+        $this->redirect('/dashboard/services', 301);
+        exit();
     }
 }

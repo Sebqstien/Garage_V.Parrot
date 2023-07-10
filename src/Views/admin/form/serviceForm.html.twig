@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+{% block content %}
+<div class="mt-4">
+    <h2>{{ service.id is defined ? 'Modifier' : 'Ajouter' }} un service</h2>
+    <form action="/dashboard/services/save{{ service.id is defined ? '/' ~ service.id : '' }}" method="POST">
+        {% if service.id is defined %}
+        <input type="hidden" name="id" value="{{ service.id }}">
+        {% endif %}
+        <div class="form-group">
+            <label for="titre">Titre</label>
+            <input type="text" class="form-control" id="titre" name="titre" value="{{ service.titre ?? '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">description</label>
+            <input type="text" class="form-control" id="description" name="description"
+                value="{{ service.description ?? '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="prix">Prix</label>
+            <input type="text" class="form-control" id="prix" name="prix" value="{{ service.prix ?? '' }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">{{ service.id is defined ? 'Modifier' : 'Ajouter' }}</button>
+    </form>
+</div>
+{% endblock %}

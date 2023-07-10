@@ -21,6 +21,7 @@ $router->addRoute("/login", 'Logincontroller@login');
 $router->addRoute("/logout", 'Logincontroller@logout');
 $router->addRoute("/dashboard", 'DashboardController@index');
 $router->addRoute("/dashboard/users", 'DashboardController@index');
+$router->addRoute("/dashboard/services", 'DashboardController@index');
 $router->addRoute("/dashboard/users/create", 'DashboardController@showUserForm');
 $router->addRoute("/dashboard/users/edit/{id}", 'DashboardController@showUserForm');
 $router->addRoute("/dashboard/users/save", 'DashboardController@saveUser');
@@ -35,6 +36,12 @@ $router->addRoute("/dashboard/annonces/show/{id}", 'DashboardController@showImag
 $router->addRoute("/dashboard/annonces/images/save", 'DashboardController@saveImages');
 $router->addRoute("/dashboard/annonces/images/delete/{id}", 'DashboardController@deleteImageAction');
 $router->addRoute("/dashboard/annonces/images/update/{id}", 'DashboardController@updateImagesAction');
+$router->addRoute("/dashboard/services/create", 'DashboardController@showServiceForm');
+$router->addRoute("/dashboard/services/edit/{id}", 'DashboardController@showServiceForm');
+$router->addRoute("/dashboard/services/save", 'DashboardController@createServiceAction');
+$router->addRoute("/dashboard/services/save/{id}", 'DashboardController@editServiceAction');
+$router->addRoute("/dashboard/services/delete/{id}", 'DashboardController@deleteServiceAction');
+
 
 
 
