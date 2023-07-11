@@ -19,7 +19,12 @@ class AvisModel extends Model
         $this->table = "avis";
     }
 
-
+    /**
+     * Cree un avis en BDD
+     *
+     * @param array $data
+     * @return boolean
+     */
     public function createAvis(array $data): bool
     {
         $sql = "INSERT INTO $this->table (nom, note, commentaire_avis) VALUES (:nom, :note, :commentaire_avis)";
@@ -33,6 +38,13 @@ class AvisModel extends Model
         return $query->rowCount() > 0;
     }
 
+
+    /**
+     * Change la colonne approved dans la table Avis.
+     *
+     * @param integer $id
+     * @return boolean
+     */
     public function approvedAvis(int $id): bool
     {
         $sql = "UPDATE avis SET approved = 1 WHERE id = :id";

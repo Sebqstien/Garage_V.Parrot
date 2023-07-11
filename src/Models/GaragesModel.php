@@ -19,6 +19,13 @@ class GaragesModel extends Model
         $this->table = 'garages';
     }
 
+
+    /**
+     * Cree en BDD un Garage dans la table Garages.
+     *
+     * @param array $data
+     * @return boolean
+     */
     public function createGarage(array $data): bool
     {
         $sql = "INSERT INTO $this->table (nom, email, telephone, adresse) VALUES (:nom, :email, :telephone, :adresse)";
@@ -34,7 +41,13 @@ class GaragesModel extends Model
     }
 
 
-
+    /**
+     * Modifie un garage de la table Grages en BDD.
+     *
+     * @param integer $id
+     * @param array $data
+     * @return boolean
+     */
     public function updateGarage(int $id, array $data): bool
     {
         $sql = "UPDATE $this->table SET nom = :nom, email = :email, telephone = :telephone, adresse = :adresse WHERE id = :id";

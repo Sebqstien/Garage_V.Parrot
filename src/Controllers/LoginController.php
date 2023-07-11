@@ -6,14 +6,22 @@ use App\Controllers\Controller;
 use App\Models\UsersModel;
 
 /**
- * Controller de la table users
+ * Controller du Login de l'application.
  */
 class LoginController extends Controller
 {
 
+    /**
+     * Model des Users pour recuperer les informations de connexion.
+     *
+     * @var UsersModel
+     */
     private UsersModel $usersModel;
 
 
+    /**
+     * Constructeur
+     */
     public function __construct()
     {
         $this->usersModel = new UsersModel;
@@ -32,8 +40,8 @@ class LoginController extends Controller
                 $email = $_POST['email'];
                 $password = $_POST['password'];
 
-                $userModel = new UsersModel;
-                $userArray = $userModel->findOneByEmail($email);
+
+                $userArray = $this->usersModel->findOneByEmail($email);
 
 
 
@@ -66,11 +74,11 @@ class LoginController extends Controller
 
 
     /**
-     * Deconnexion de l'utilsateur.
+     * Deconnexion de l'utilisateur.
      *
      * @return void
      */
-    public function logout()
+    public function logout(): void
     {
         session_destroy();
         $this->redirect('/', 301);

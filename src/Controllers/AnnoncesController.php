@@ -9,9 +9,16 @@ use App\Models\AnnoncesModel;
  */
 class AnnoncesController extends Controller
 {
-
+    /**
+     * Model des annonces
+     *
+     * @var AnnoncesModel
+     */
     private AnnoncesModel $annoncesModel;
 
+    /**
+     * Constructeur
+     */
     public function __construct()
     {
         $this->annoncesModel = new AnnoncesModel;
@@ -44,8 +51,12 @@ class AnnoncesController extends Controller
         $this->render('annonces/show.html.twig', compact('annonce', 'footerData'));
     }
 
-
-    public function createAnnonceAction()
+    /**
+     * Creation des annonces venant du formulaire du dashboard.
+     *
+     * @return void
+     */
+    public function createAnnonceAction(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
@@ -88,8 +99,12 @@ class AnnoncesController extends Controller
     }
 
 
-
-    public function editAnnonceAction(int $id)
+    /**
+     * modification des annonces venant du formulaire du dashboard.
+     *
+     * @return void
+     */
+    public function editAnnonceAction(int $id): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
@@ -127,6 +142,13 @@ class AnnoncesController extends Controller
         $this->render('/dashboard/annonces/edit/' . $annonce['id'], ['annonce' => $annonce]);
     }
 
+
+    /**
+     * Suppression d'une annonce et des ses images associees en BDD.
+     *
+     * @param integer $id
+     * @return void
+     */
     public function deleteAnnonceAction(int $id)
     {
         $this->annoncesModel->deleteAnnonceWithImages($id);

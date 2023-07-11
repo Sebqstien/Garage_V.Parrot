@@ -9,11 +9,17 @@ use App\Models\AvisModel;
  */
 class AvisController extends Controller
 {
-
+    /**
+     * Model des Avis
+     *
+     * @var AvisModel
+     */
     private AvisModel $avisModel;
 
 
-
+    /**
+     * Constructeur
+     */
     public function __construct()
     {
         $this->avisModel = new AvisModel;
@@ -35,7 +41,12 @@ class AvisController extends Controller
     }
 
 
-    public function createAvisAction()
+    /**
+     * Creation d'un avis venant du formulaire du dashboard.
+     *
+     * @return void
+     */
+    public function createAvisAction(): void
     {
         var_dump($_POST);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -52,7 +63,11 @@ class AvisController extends Controller
         }
     }
 
-
+    /**
+     * Suppression d'un avis client en BDD.
+     *
+     * @return void
+     */
     public function deleteAvisAction(int $id): void
     {
         $this->avisModel->delete($id);
@@ -61,7 +76,13 @@ class AvisController extends Controller
         exit;
     }
 
-    public function approvedAvisAction(int $id)
+    /**
+     * Change l'avis en approved.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function approvedAvisAction(int $id): void
     {
 
         $this->avisModel->approvedAvis($id);

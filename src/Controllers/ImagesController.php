@@ -5,11 +5,19 @@ namespace App\Controllers;
 use App\Models\ImagesModel;
 
 
+/**
+ * Controleur des Images
+ */
 class ImagesController extends Controller
 {
 
-
-    public function updateImagesAction(int $annonceId)
+    /**
+     * Modifies les images en BDD provenant du formulaire dashboard.
+     *
+     * @param integer $annonceId
+     * @return void
+     */
+    public function updateImagesAction(int $annonceId): void
     {
         $imagesModel = new ImagesModel;
 
@@ -41,7 +49,14 @@ class ImagesController extends Controller
         exit();
     }
 
-    public function deleteImageAction(int $id)
+
+    /**
+     * Supprime une image en BDD par l'action de l'user au dashboard.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function deleteImageAction(int $id): void
     {
         $imagesModel = new ImagesModel;
         $image = $imagesModel->findBy("*", "id_image", $id);

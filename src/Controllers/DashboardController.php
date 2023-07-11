@@ -12,15 +12,66 @@ use App\Models\ServicesModel;
 
 class DashboardController extends Controller
 {
+    /**
+     * Model des Users
+     *
+     * @var UsersModel
+     */
     private UsersModel $usersModel;
+
+    /**
+     * Model des Annonces
+     *
+     * @var AnnoncesModel
+     */
     private AnnoncesModel $annoncesModel;
+
+    /**
+     * Model des Images
+     *
+     * @var ImagesModel
+     */
     private ImagesModel $imagesModel;
+
+    /**
+     * Model des services
+     *
+     * @var ServicesModel
+     */
     private ServicesModel $servicesModel;
+
+    /**
+     * Model des Horaires
+     *
+     * @var HorairesModel
+     */
     private HorairesModel $horairesModel;
+
+    /**
+     * Model des Garages
+     *
+     * @var GaragesModel
+     */
     private GaragesModel $garageModel;
+
+    /**
+     * Model des Avis
+     *
+     * @var AvisModel
+     */
     private AvisModel $avisModel;
+
+    /**
+     * Donnees a injecter dans le footer
+     *
+     * @var array
+     */
     private array $footerData;
 
+
+    /**
+     * Constructeur
+     */
     public function __construct()
     {
         $this->usersModel = new UsersModel();
@@ -33,7 +84,13 @@ class DashboardController extends Controller
         $this->footerData = $this->getFooterData();
     }
 
-    public function index()
+
+    /**
+     * Affiche la page d'index du dashboard
+     *
+     * @return void
+     */
+    public function index(): void
     {
         unset($_SESSION['erreur']);
 
@@ -43,8 +100,6 @@ class DashboardController extends Controller
             $user = $this->usersModel->findOneByEmail($userEmail);
             $annonces = $this->annoncesModel->findAllAnnoncesWithImages();
             $avis = $this->avisModel->findBy('*', 'approved', 0);
-
-
 
 
             if ($user && $user['is_admin'] === 1) {
@@ -270,7 +325,12 @@ class DashboardController extends Controller
         }
     }
 
-
+    /**
+     * Genere la page d'affichage des Images associees a une annonce.
+     *
+     * @param integer $id
+     * @return void
+     */
     public function showImages(int $id): void
     {
         if (isset($_SESSION['user'])) {
@@ -285,6 +345,11 @@ class DashboardController extends Controller
     }
 
 
+    /**
+     * Affiche la page de moderation des Avis clients.
+     *
+     * @return void
+     */
     public function showAvis(): void
     {
         if (isset($_SESSION['user'])) {

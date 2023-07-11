@@ -20,6 +20,12 @@ class ServicesModel extends Model
     }
 
 
+    /**
+     * Crre un services en BDD.
+     *
+     * @param array $data
+     * @return boolean
+     */
     public function createService(array $data): bool
     {
         $sql = "INSERT INTO $this->table (titre, description, prix) VALUES (:titre, :description, :prix)";
@@ -33,6 +39,14 @@ class ServicesModel extends Model
         return $query->rowCount() > 0;
     }
 
+
+    /**
+     * Modifie un service en BDD.
+     *
+     * @param integer $id
+     * @param array $data
+     * @return boolean
+     */
     public function updateService(int $id, array $data): bool
     {
         $sql = "UPDATE $this->table SET titre = :titre, description = :description, prix = :prix WHERE id = :id";

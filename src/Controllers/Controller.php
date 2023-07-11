@@ -61,6 +61,13 @@ abstract class Controller
         header('Location: ' . $route);
     }
 
+
+    /**
+     * Upload de un ou  plusieurs fichiers dans le dossier /upload.
+     *
+     * @param array $files
+     * @return array
+     */
     protected function upload(array $files): array
     {
         $uploaded = [];
@@ -85,5 +92,4 @@ abstract class Controller
 
         return $uploaded;
     }
-
 }

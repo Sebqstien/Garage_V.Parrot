@@ -59,7 +59,13 @@ class Router
         }
     }
 
-    private function matchRoute($url)
+    /**
+     * Decompose les routes
+     *
+     * @param [type] $url
+     * @return void
+     */
+    private function matchRoute(string $url): null
     {
         foreach ($this->routes as $route => $controllerAction) {
             $pattern = $this->convertRouteToRegex($route);

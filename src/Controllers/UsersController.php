@@ -4,13 +4,23 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 
-
+/**
+ * Controleur des Utilisateurs de l'application.
+ */
 class UsersController extends Controller
 {
 
+    /**
+     * Model des Users.
+     *
+     * @var UsersModel
+     */
     private UsersModel $usersModel;
 
 
+    /**
+     * Constructeur
+     */
     public function __construct()
     {
         $this->usersModel = new UsersModel();

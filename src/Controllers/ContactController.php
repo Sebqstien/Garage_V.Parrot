@@ -4,11 +4,18 @@ namespace App\Controllers;
 
 use App\Config;
 
-
+/**
+ * Controleur de la page Contact
+ */
 class ContactController extends Controller
 {
 
-    public function index()
+    /**
+     * Affiche la page d'index 
+     *
+     * @return void
+     */
+    public function index(): void
     {
         $footerData = $this->getFooterData();
         $this->render(
@@ -20,7 +27,12 @@ class ContactController extends Controller
     }
 
 
-    public function envoyerMailAction()
+    /**
+     * Recupere les donnees du formulaire de contact et les envoient en mail.
+     *
+     * @return void
+     */
+    public function envoyerMailAction(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $nom = htmlspecialchars($_POST['nom']) ?? '';
@@ -43,7 +55,6 @@ class ContactController extends Controller
                 $_SESSION['erreur'] = "Une erreur est survenue lors de l'envoi du message.";
             }
 
-            // Redirection vers la page de confirmation
             $this->redirect('/', 301);
             exit();
         }
