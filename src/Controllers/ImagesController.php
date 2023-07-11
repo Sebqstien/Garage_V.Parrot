@@ -53,7 +53,7 @@ class ImagesController extends Controller
                 unlink($_SERVER['DOCUMENT_ROOT'] . $path);
             }
 
-            $imagesModel->deleteImage($id);
+            $imagesModel->delete($id);
 
             $annonceId = $image[0]['id_voiture'];
             $this->redirect('/dashboard/annonces/show/' . $annonceId, 301);
@@ -64,5 +64,4 @@ class ImagesController extends Controller
         $this->redirect('/dashboard', 301);
         exit();
     }
-    
 }

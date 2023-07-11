@@ -32,4 +32,13 @@ class AvisModel extends Model
 
         return $query->rowCount() > 0;
     }
+
+    public function approvedAvis(int $id): bool
+    {
+        $sql = "UPDATE avis SET approved = 1 WHERE id = :id";
+        $query = Database::getInstance()->prepare($sql);
+        $query->execute(['id' => $id]);
+
+        return true;
+    }
 }

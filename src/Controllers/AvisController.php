@@ -59,4 +59,12 @@ class AvisController extends Controller
         $this->redirect('/dashboard/avis', 301);
         exit;
     }
+
+    public function approvedAvisAction(int $id)
+    {
+        $this->avisModel->approvedAvis($id);
+
+        $this->redirect('/dashboard/avis', 301);
+        exit;
+    }
 }

@@ -54,7 +54,7 @@ class GaragesController extends Controller
 
     public function deleteGaragesAction(int $id)
     {
-        $this->garageModel->deleteGarage($id);
+        $this->garageModel->delete($id);
 
         $this->redirect('/dashboard/garages', 301);
         exit();

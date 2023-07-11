@@ -80,6 +80,7 @@ $router->addRoute("/dashboard/avis/read/{id}", 'DashboardController@showAvis');
 $router->addRoute("/dashboard/avis/delete/{id}", 'AvisController@deleteAvisAction');
 $router->addRoute("/dashboard/avis/create", 'DashboardController@showAvisForm');
 $router->addRoute("/dashboard/avis/save", 'AvisController@createAvisAction');
+$router->addRoute("/dashboard/avis/approved/{id}", 'AvisController@approvedAvisAction');
 
 
 

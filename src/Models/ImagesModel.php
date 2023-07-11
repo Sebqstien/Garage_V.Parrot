@@ -62,21 +62,6 @@ class ImagesModel extends Model
 
 
     /**
-     * Supprime une entrée d'image en BDD
-     *
-     * @param int $id
-     * @return bool
-     */
-    public function deleteImage(int $id): bool
-    {
-        $sql = "DELETE FROM {$this->table} WHERE id_image = :id";
-        $query = Database::getInstance()->prepare($sql);
-        $query->execute(['id' => $id]);
-        return true;
-    }
-
-
-    /**
      * update une image en BDD
      *
      * @param array $data

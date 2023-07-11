@@ -15,7 +15,8 @@
                 <a href="/dashboard/avis/delete/{{ item.id }}" class="btn btn-danger"><i class="bi bi-x-circle"></i></a>
 
                 {% if not avis.valide %}
-                <a href="/dashboard/approuved/{{ item.id }}" class="btn btn-success"><i class="bi bi-check-lg"></i></a>
+                <a href="/dashboard/avis/approved/{{ item.id }}" class="btn btn-success"><i
+                        class="bi bi-check-lg"></i></a>
                 {% endif %}
             </div>
         </div>

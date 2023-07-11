@@ -49,15 +49,4 @@ class GaragesModel extends Model
 
         return $query->rowCount() > 0;
     }
-
-
-
-    public function deleteGarage(int $id): bool
-    {
-        $sql = "DELETE FROM $this->table WHERE id = :id";
-        $query = Database::getInstance()->prepare($sql);
-        $query->execute(['id' => $id]);
-
-        return $query->rowCount() > 0;
-    }
 }
