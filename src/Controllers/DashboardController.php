@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 use App\Models\AnnoncesModel;
+use App\Models\AvisModel;
 use App\Models\GaragesModel;
 use App\Models\HorairesModel;
 use App\Models\ImagesModel;
@@ -17,6 +18,7 @@ class DashboardController extends Controller
     private ServicesModel $servicesModel;
     private HorairesModel $horairesModel;
     private GaragesModel $garageModel;
+    private AvisModel $avisModel;
 
     public function __construct()
     {
@@ -26,6 +28,7 @@ class DashboardController extends Controller
         $this->servicesModel = new ServicesModel();
         $this->horairesModel = new HorairesModel();
         $this->garageModel = new GaragesModel();
+        $this->avisModel = new AvisModel();
     }
 
     public function index()
@@ -37,6 +40,7 @@ class DashboardController extends Controller
             $userEmail = $_SESSION['user']['email'];
             $user = $this->usersModel->findOneByEmail($userEmail);
             $annonces = $this->annoncesModel->findAllAnnoncesWithImages();
+            $avis = $this->avisModel->findBy('*', 'approved', 0);
 
 
             if ($user && $user['is_admin'] === 1) {
@@ -83,6 +87,16 @@ class DashboardController extends Controller
                             'user' => $user
                         ]
                     );
+                } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/avis') {
+                    $this->render(
+                        '/admin/dashboard.html.twig',
+                        [
+                            'avis' => $avis,
+                            'isAdmin' => true,
+                            'currentTab' => 'avis',
+                            'user' => $user
+                        ]
+                    );
                 } else {
 
                     $this->render('/admin/dashboard.html.twig', [
@@ -92,7 +106,13 @@ class DashboardController extends Controller
                         'user' => $user
                     ]);
                 }
-            } else {
+            } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/avis') {
+                $this->render('/admin/dashboard.html.twig', [
+                    'avis' => $avis,
+                    'user' => $user,
+                    'currentTab' => 'avis',
+                ]);
+            } elseif ($_SERVER['REQUEST_URI'] === '/dashboard') {
                 $this->render('/admin/dashboard.html.twig', [
                     'annonces' => $annonces,
                     'user' => $user,
@@ -203,6 +223,24 @@ class DashboardController extends Controller
     }
 
 
+    /**
+     * Genere la vue du formulaire de creation d'un avis client.
+     *
+     * @return void
+     */
+    public function showAvisForm(): void
+    {
+        if ($_SESSION['user']) {
+
+            $template = '/admin/form/avisForm.html.twig';
+            $this->render($template);
+        } else {
+            $this->redirect('/', 301);
+            exit;
+        }
+    }
+
+
     public function showImages(int $id): void
     {
         if (isset($_SESSION['user'])) {
@@ -211,6 +249,18 @@ class DashboardController extends Controller
             $this->render('admin/showImages.html.twig', [
                 'images' => $images,
                 'annonce' => $annonce
+            ]);
+        }
+    }
+
+
+    public function showAvis(int $id): void
+    {
+        if (isset($_SESSION['user'])) {
+            $avis = $this->avisModel->findBy('*', 'approved', 0);
+            var_dump($avis);
+            $this->render('admin/showAvis.html.twig', [
+                'avis' => $avis
             ]);
         }
     }

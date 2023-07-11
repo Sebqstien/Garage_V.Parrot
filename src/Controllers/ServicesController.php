@@ -51,7 +51,7 @@ class ServicesController extends Controller
 
     public function deleteServiceAction(int $id)
     {
-        $this->servicesModel->deleteService($id);
+        $this->servicesModel->delete($id);
 
         $this->redirect('/dashboard/services', 301);
         exit();

@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+{% block content %}
+<div class="mt-4">
+    <h2>Ajouter un avis client</h2>
+    <form action="/dashboard/avis/save" method="POST">
+        <div class="form-group">
+            <label for="nom">Nom du client</label>
+            <input type="text" class="form-control" id="nom" name="nom" required>
+        </div>
+        <div class="form-group">
+            <label for="note">Note</label>
+            <input type="text" class="form-control" id="note" name="note" required>
+        </div>
+        <div class="form-group">
+            <label for="commentaire_avis">Commentaire</label>
+            <textarea rows="10" cols="10" class="form-control" id="commentaire_avis" name="commentaire_avis"
+                required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success mt-3">Ajouter</button>
+    </form>
+</div>
+{% endblock %}

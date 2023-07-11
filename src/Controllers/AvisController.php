@@ -34,5 +34,29 @@ class AvisController extends Controller
         ]);
     }
 
-    
+
+    public function createAvisAction()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SESSION['user']['is_admin'] == true) {
+            $data = [
+                'nom' => $_POST['nom'] ?? '',
+                'note' => $_POST['note'] ?? '',
+                'commentaire_avis' => $_POST['commentaire_avis'] ?? ''
+            ];
+
+            $this->avisModel->createAvis($data);
+
+            $this->redirect('/dashboard/avis', 301);
+            exit();
+        }
+    }
+
+
+    public function deleteAvisAction(int $id): void
+    {
+        $this->avisModel->delete($id);
+
+        $this->redirect('/dashboard/avis', 301);
+        exit;
+    }
 }

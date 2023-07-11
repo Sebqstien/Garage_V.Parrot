@@ -74,9 +74,9 @@ abstract class Model extends Database
      * @param integer $id
      * @return array|boolean
      */
-    public function findBy(string $row, string $foreign_key, int $id): array|bool
+    public function findBy(string $row, string $where, int $value): array|bool
     {
-        $sql = "SELECT $row FROM {$this->table} WHERE $foreign_key = $id";
+        $sql = "SELECT $row FROM {$this->table} WHERE $where = $value";
         $query = Database::getInstance()->prepare($sql);
         $query->execute();
         return $query->fetchAll();
