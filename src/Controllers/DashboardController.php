@@ -254,11 +254,13 @@ class DashboardController extends Controller
     public function showImages(int $id): void
     {
         if (isset($_SESSION['user'])) {
+            $footerData = $this->getFooterData();
             $annonce = $this->annoncesModel->find($id);
             $images = $this->imagesModel->findBy("path_image, id_image", "id_voiture", $id);
             $this->render('admin/showImages.html.twig', [
                 'images' => $images,
-                'annonce' => $annonce
+                'annonce' => $annonce,
+                'footerData' => $footerData
             ]);
         }
     }

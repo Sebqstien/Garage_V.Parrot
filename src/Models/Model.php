@@ -28,17 +28,7 @@ abstract class Model extends Database
     protected Database $database;
 
 
-    public function hydrate(array $donnees): self
-    {
-        foreach ($donnees as $key => $value) {
 
-            $setter = 'set' . ucfirst($key);
-            if (method_exists($this, $setter)) {
-                $this->$setter($value);
-            }
-        }
-        return $this;
-    }
 
     /**
      * Retourne tous les elements d'une table.

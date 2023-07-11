@@ -32,13 +32,23 @@ class LoginController extends Controller
                 $email = $_POST['email'];
                 $password = $_POST['password'];
 
-                $userArray = $this->usersModel->findOneByEmail(htmlspecialchars($email));
+                $userModel = new UsersModel;
+                $userArray = $userModel->findOneByEmail($email);
+
+
 
                 if ($userArray && (password_verify($password, $userArray['password']))) {
 
-                    $user = $this->usersModel->hydrate($userArray);
+
+
                     unset($_SESSION['erreur']);
-                    $this->setSession();
+                    $_SESSION['user'] = [
+                        'nom' => $userArray['nom'],
+                        'prenom' => $userArray['prenom'],
+                        'email' => $userArray['email'],
+                        'is_admin' => $userArray['is_admin']
+                    ];
+
                     $this->redirect('/dashboard', 301);
                     exit;
                 }
@@ -65,21 +75,5 @@ class LoginController extends Controller
         session_destroy();
         $this->redirect('/', 301);
         exit;
-    }
-
-
-    /**
-     * Alimente la session avec les variables de l'utilisateur.
-     *
-     * @return void
-     */
-    public function setSession(): void
-    {
-        $_SESSION['user'] = [
-            'nom' => $this->usersModel->getNom(),
-            'prenom' => $this->usersModel->getPrenom(),
-            'email' => $this->usersModel->getEmail(),
-            'is_admin' => $this->usersModel->getIs_admin()
-        ];
     }
 }

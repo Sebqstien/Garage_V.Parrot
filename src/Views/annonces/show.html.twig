@@ -1,0 +1,45 @@
+{% extends "base.html.twig" %}
+{% block content %}
+<h1>{{annonce.titre}}</h1>
+
+<ul>
+    <li>
+        <p>Marque: {{annonce.marque}}</p>
+    </li>
+    <li>
+        <p>Marque: {{annonce.modele}}</p>
+    </li>
+    <li>
+        <p>Marque: {{annonce.carburant}}</p>
+    </li>
+    <li>
+        <p>Annee: {{annonce.annee}}</p>
+    </li>
+    <li>
+        <p>Kilometres: {{annonce.kilometrage}}</p>
+    </li>
+</ul>
+
+<p>{{ annonce.description }}</p>
+<p>{{ annonce.prix }}euros</p>
+
+<h2>Contactez-nous</h2>
+<form method="POST" action="/mail">
+    <div class="form-group">
+        <label for="nom">Nom :</label>
+        <input type="text" id="nom" name="nom" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="email">E-mail :</label>
+        <input type="email" id="email" name="email" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="message">Message :</label>
+        <textarea id="message" name="message" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+</form>
+{% endblock content %}

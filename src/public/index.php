@@ -59,9 +59,9 @@ $router->addRoute("/dashboard/annonces/images/update/{id}", 'ImagesController@up
 // Services
 $router->addRoute("/dashboard/services/create", 'DashboardController@showServiceForm');
 $router->addRoute("/dashboard/services/edit/{id}", 'DashboardController@showServiceForm');
-$router->addRoute("/dashboard/services/save", 'DashboardController@createServiceAction');
-$router->addRoute("/dashboard/services/save/{id}", 'DashboardController@editServiceAction');
-$router->addRoute("/dashboard/services/delete/{id}", 'DashboardController@deleteServiceAction');
+$router->addRoute("/dashboard/services/save", 'ServiceController@createServiceAction');
+$router->addRoute("/dashboard/services/save/{id}", 'ServiceController@editServiceAction');
+$router->addRoute("/dashboard/services/delete/{id}", 'ServiceController@deleteServiceAction');
 
 
 // Garages

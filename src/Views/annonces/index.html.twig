@@ -26,28 +26,12 @@
             </ul>
             <p>{{annonce.prix}} euros</p>
             </li>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-{{ annonce.id }}">
+            <a class="btn btn-secondary" href="/annonces/{{ annonce.id }}">
                 Détails
-            </button>
+            </a>
         </div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="modal-{{ annonce.id }}" tabindex="-1" role="dialog"
-            aria-labelledby="modalLabel-{{ annonce.id }}" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel-{{ annonce.id }}">Détails de l'annonce</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>{{ annonce.description }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         {% endfor %}
     </div>
     {% endblock content %}

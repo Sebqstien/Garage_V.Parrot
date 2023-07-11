@@ -31,6 +31,20 @@ class AnnoncesController extends Controller
     }
 
 
+    /**
+     * Recupere les donnees en BDD et genere la vue d'une annonce.
+     *
+     * @return void
+     */
+    public function show(int $id): void
+    {
+        $annonce = $this->annoncesModel->find($id);
+        $footerData = $this->getFooterData();
+
+        $this->render('annonces/show.html.twig', compact('annonce', 'footerData'));
+    }
+
+
     public function createAnnonceAction()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
