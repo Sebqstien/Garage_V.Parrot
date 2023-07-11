@@ -41,6 +41,8 @@ class DashboardController extends Controller
             $user = $this->usersModel->findOneByEmail($userEmail);
             $annonces = $this->annoncesModel->findAllAnnoncesWithImages();
             $avis = $this->avisModel->findBy('*', 'approved', 0);
+            $footerData = $this->getFooterData();
+
 
 
             if ($user && $user['is_admin'] === 1) {
@@ -55,7 +57,8 @@ class DashboardController extends Controller
                         'annonces' => $annonces,
                         'isAdmin' => true,
                         'currentTab' => 'users',
-                        'user' => $user
+                        'user' => $user,
+                        'footerData' => $footerData
                     ]);
                 } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/services') {
                     $this->render(
@@ -64,7 +67,8 @@ class DashboardController extends Controller
                             'services' => $services,
                             'isAdmin' => true,
                             'currentTab' => 'services',
-                            'user' => $user
+                            'user' => $user,
+                            'footerData' => $footerData
                         ]
                     );
                 } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/garages') {
@@ -74,7 +78,8 @@ class DashboardController extends Controller
                             'garages' => $garages,
                             'isAdmin' => true,
                             'currentTab' => 'garages',
-                            'user' => $user
+                            'user' => $user,
+                            'footerData' => $footerData
                         ]
                     );
                 } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/horaires') {
@@ -84,7 +89,8 @@ class DashboardController extends Controller
                             'horaires' => $horaires,
                             'isAdmin' => true,
                             'currentTab' => 'horaires',
-                            'user' => $user
+                            'user' => $user,
+                            'footerData' => $footerData
                         ]
                     );
                 } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/avis') {
@@ -94,7 +100,8 @@ class DashboardController extends Controller
                             'avis' => $avis,
                             'isAdmin' => true,
                             'currentTab' => 'avis',
-                            'user' => $user
+                            'user' => $user,
+                            'footerData' => $footerData
                         ]
                     );
                 } else {
@@ -103,7 +110,8 @@ class DashboardController extends Controller
                         'annonces' => $annonces,
                         'isAdmin' => true,
                         'currentTab' => 'annonces',
-                        'user' => $user
+                        'user' => $user,
+                        'footerData' => $footerData
                     ]);
                 }
             } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/avis') {
@@ -111,12 +119,14 @@ class DashboardController extends Controller
                     'avis' => $avis,
                     'user' => $user,
                     'currentTab' => 'avis',
+                    'footerData' => $footerData
                 ]);
             } elseif ($_SERVER['REQUEST_URI'] === '/dashboard') {
                 $this->render('/admin/dashboard.html.twig', [
                     'annonces' => $annonces,
                     'user' => $user,
                     'currentTab' => 'annonces',
+                    'footerData' => $footerData
                 ]);
             }
         } else {

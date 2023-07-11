@@ -16,6 +16,8 @@ $router = new Router;
 $router->addRoute('/', 'MainController@index');
 $router->addRoute('/annonces', 'AnnoncesController@index');
 $router->addRoute('/avis', 'AvisController@index');
+$router->addRoute("/contact", 'ContactController@index');
+$router->addRoute("/mail", 'ContactController@envoyerMailAction');
 $router->addRoute("/annonces/{id}", 'AnnoncesController@show');
 $router->addRoute("/login", 'Logincontroller@login');
 $router->addRoute("/logout", 'Logincontroller@logout');

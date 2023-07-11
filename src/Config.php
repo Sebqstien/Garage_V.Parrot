@@ -27,4 +27,9 @@ abstract class Config
      * @var string
      */
     public const DBNAME = 'garage_vparrot';
+
+    /**
+     *  Reception des formulaires des clients.
+     */
+    public const EMAIL = 'contact@vparrot.fr';
 }
