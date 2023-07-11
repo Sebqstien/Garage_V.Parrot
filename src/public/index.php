@@ -33,9 +33,9 @@ $router->addRoute("/dashboard/horaires", 'DashboardController@index');
 //Dashboard Users
 $router->addRoute("/dashboard/users/create", 'DashboardController@showUserForm');
 $router->addRoute("/dashboard/users/edit/{id}", 'DashboardController@showUserForm');
-$router->addRoute("/dashboard/users/save", 'DashboardController@saveUser');
-$router->addRoute("/dashboard/users/save/{id}", 'DashboardController@saveUser');
-$router->addRoute("/dashboard/users/delete/{id}", 'DashboardController@deleteUser');
+$router->addRoute("/dashboard/users/save", 'AnnoncesController@saveUser');
+$router->addRoute("/dashboard/users/save/{id}", 'AnnoncesController@saveUser');
+$router->addRoute("/dashboard/users/delete/{id}", 'AnnoncesController@deleteUser');
 
 
 //Dashboard Annonces
@@ -68,7 +68,7 @@ $router->addRoute("/dashboard/garages/delete/{id}", 'DashboardController@deleteG
 
 //Dahboard Horaires
 $router->addRoute("/dashboard/horaires/edit/{id}", 'DashboardController@showHorairesForm');
-$router->addRoute("/dashboard/horaires/save/{id}", 'DashboardController@editHorairesAction');
+$router->addRoute("/dashboard/horaires/save/{id}", 'HorairesController@editHorairesAction');
 
 
 

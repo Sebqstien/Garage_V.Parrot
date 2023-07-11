@@ -60,4 +60,29 @@ abstract class Controller
         header('Status: 301 Moved Permanently', false, $http_code);
         header('Location: ' . $route);
     }
+
+    protected function upload(array $files): array
+    {
+        $uploaded = [];
+
+        if (!empty($files['name'][0])) {
+            $uploadDirectory = "upload/";
+
+
+            for ($i = 0; $i < count($files['name']); $i++) {
+                $filename = uniqid() . '_' . $files['name'][$i];
+                $destination = $uploadDirectory . $filename;
+
+
+                if (move_uploaded_file($files['tmp_name'][$i], $destination)) {
+                    $uploaded[] = $destination;
+                } else {
+                    $_SESSION['erreur'] = "Erreur sur l'upload des images";
+                    return false;
+                }
+            }
+        }
+
+        return $uploaded;
+    }
 }
