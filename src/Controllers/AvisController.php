@@ -26,7 +26,7 @@ class AvisController extends Controller
      */
     public function index(): void
     {
-        $avis = $this->avisModel->findAll();
+        $avis = $this->avisModel->findBy('*', 'approved', 1);
         $footerData = $this->getFooterData();
         $this->render('/avis/index.html.twig', [
             'footerData' => $footerData,
@@ -37,7 +37,8 @@ class AvisController extends Controller
 
     public function createAvisAction()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SESSION['user']['is_admin'] == true) {
+        var_dump($_POST);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
                 'nom' => $_POST['nom'] ?? '',
                 'note' => $_POST['note'] ?? '',
@@ -46,7 +47,7 @@ class AvisController extends Controller
 
             $this->avisModel->createAvis($data);
 
-            $this->redirect('/dashboard/avis', 301);
+            $this->redirect('/avis', 301);
             exit();
         }
     }
@@ -62,6 +63,7 @@ class AvisController extends Controller
 
     public function approvedAvisAction(int $id)
     {
+
         $this->avisModel->approvedAvis($id);
 
         $this->redirect('/dashboard/avis', 301);

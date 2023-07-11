@@ -93,6 +93,3 @@ $router->addRoute("/dashboard/avis/approved/{id}", 'AvisController@approvedAvisA
 
 //Demarrage du Router
 $router->start();
-
-var_dump($_SESSION);
-var_dump($_POST);
