@@ -29,7 +29,7 @@ class AnnoncesModel extends Model
         $query = Database::getInstance()->prepare($sql);
         $query->execute();
 
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        $result = $query->fetchAll();
 
         $annonces = [];
         $currentAnnonce = null;
@@ -181,5 +181,70 @@ class AnnoncesModel extends Model
         $query->execute(['annonceId' => $annonceId]);
 
         return true;
+    }
+
+
+    public function getFilteredAnnonces($prixMin, $prixMax, $kilometresMin, $kilometresMax, $anneeMin, $anneeMax, $marque, $carburant)
+    {
+        $query = "SELECT * FROM annonces WHERE 1 = 1";
+
+        if ($prixMin !== null) {
+            $query .= " AND prix >= :prixMin";
+        }
+        if ($prixMax !== null) {
+            $query .= " AND prix <= :prixMax";
+        }
+        if ($kilometresMin !== null) {
+            $query .= " AND kilometrage >= :kilometresMin";
+        }
+        if ($kilometresMax !== null) {
+            $query .= " AND kilometrage <= :kilometresMax";
+        }
+        if ($anneeMin !== null) {
+            $query .= " AND annee >= :anneeMin";
+        }
+        if ($anneeMax !== null) {
+            $query .= " AND annee <= :anneeMax";
+        }
+        if ($marque !== null && $marque !== "") {
+            $query .= " AND marque = :marque";
+        }
+        if ($carburant !== null && $carburant !== "") {
+            $query .= " AND carburant = :carburant";
+        }
+
+        $stmt = Database::getInstance()->prepare($query);
+
+        if ($prixMin !== null) {
+            $stmt->bindValue(':prixMin', $prixMin);
+        }
+        if ($prixMax !== null) {
+            $stmt->bindValue(':prixMax', $prixMax);
+        }
+        if ($kilometresMin !== null) {
+            $stmt->bindValue(':kilometresMin', $kilometresMin);
+        }
+        if ($kilometresMax !== null) {
+            $stmt->bindValue(':kilometresMax', $kilometresMax);
+        }
+        if ($anneeMin !== null) {
+            $stmt->bindValue(':anneeMin', $anneeMin);
+        }
+        if ($anneeMax !== null) {
+            $stmt->bindValue(':anneeMax', $anneeMax);
+        }
+        if ($marque !== null && $marque !== "") {
+            $stmt->bindValue(':marque', $marque);
+        }
+        if ($carburant !== null && $carburant !== "") {
+            $stmt->bindValue(':carburant', $carburant);
+        }
+
+        $stmt->execute();
+
+        $annonces = $stmt->fetchAll();
+
+
+        return $annonces;
     }
 }

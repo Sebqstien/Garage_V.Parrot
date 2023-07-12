@@ -94,13 +94,11 @@ class DashboardController extends Controller
     {
         unset($_SESSION['erreur']);
 
-
         if (isset($_SESSION['user'])) {
             $userEmail = $_SESSION['user']['email'];
             $user = $this->usersModel->findOneByEmail($userEmail);
             $annonces = $this->annoncesModel->findAllAnnoncesWithImages();
             $avis = $this->avisModel->findBy('*', 'approved', 0);
-
 
             if ($user && $user['is_admin'] === 1) {
                 $users = $this->usersModel->findAll();
@@ -108,69 +106,33 @@ class DashboardController extends Controller
                 $garages = $this->garageModel->findAll();
                 $horaires = $this->horairesModel->findAll();
 
-                if ($_SERVER['REQUEST_URI'] === '/dashboard/users') {
-                    $this->render('/admin/dashboard.html.twig', [
-                        'users' => $users,
-                        'annonces' => $annonces,
-                        'isAdmin' => true,
-                        'currentTab' => 'users',
-                        'user' => $user,
-                        'footerData' => $this->footerData
-                    ]);
-                } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/services') {
-                    $this->render(
-                        '/admin/dashboard.html.twig',
-                        [
-                            'services' => $services,
-                            'isAdmin' => true,
-                            'currentTab' => 'services',
-                            'user' => $user,
-                            'footerData' => $this->footerData
-                        ]
-                    );
-                } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/garages') {
-                    $this->render(
-                        '/admin/dashboard.html.twig',
-                        [
-                            'garages' => $garages,
-                            'isAdmin' => true,
-                            'currentTab' => 'garages',
-                            'user' => $user,
-                            'footerData' => $this->footerData
-                        ]
-                    );
-                } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/horaires') {
-                    $this->render(
-                        '/admin/dashboard.html.twig',
-                        [
-                            'horaires' => $horaires,
-                            'isAdmin' => true,
-                            'currentTab' => 'horaires',
-                            'user' => $user,
-                            'footerData' => $this->footerData
-                        ]
-                    );
-                } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/avis') {
-                    $this->render(
-                        '/admin/dashboard.html.twig',
-                        [
-                            'avis' => $avis,
-                            'isAdmin' => true,
-                            'currentTab' => 'avis',
-                            'user' => $user,
-                            'footerData' => $this->footerData
-                        ]
-                    );
-                } else {
+                $params = [
+                    'isAdmin' => true,
+                    'user' => $user,
+                    'footerData' => $this->footerData
+                ];
 
-                    $this->render('/admin/dashboard.html.twig', [
-                        'annonces' => $annonces,
-                        'isAdmin' => true,
-                        'currentTab' => 'annonces',
-                        'user' => $user,
-                        'footerData' => $this->footerData
-                    ]);
+                if ($_SERVER['REQUEST_URI'] === '/dashboard/users') {
+                    $params['users'] = $users;
+                    $params['currentTab'] = 'users';
+                } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/services') {
+                    $params['services'] = $services;
+                    $params['currentTab'] = 'services';
+                } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/garages') {
+                    $params['garages'] = $garages;
+                    $params['currentTab'] = 'garages';
+                } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/horaires') {
+                    $params['horaires'] = $horaires;
+                    $params['currentTab'] = 'horaires';
+                } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/avis') {
+                    $params['avis'] = $avis;
+                    $params['currentTab'] = 'avis';
+                } else {
+                    $params['annonces'] = $annonces;
+                    $params['currentTab'] = 'annonces';
                 }
+
+                $this->render('/admin/dashboard.html.twig', $params);
             } elseif ($_SERVER['REQUEST_URI'] === '/dashboard/avis') {
                 $this->render('/admin/dashboard.html.twig', [
                     'avis' => $avis,
@@ -178,7 +140,7 @@ class DashboardController extends Controller
                     'currentTab' => 'avis',
                     'footerData' => $this->footerData
                 ]);
-            } elseif ($_SERVER['REQUEST_URI'] === '/dashboard') {
+            } else {
                 $this->render('/admin/dashboard.html.twig', [
                     'annonces' => $annonces,
                     'user' => $user,
@@ -191,6 +153,7 @@ class DashboardController extends Controller
             $_SESSION['erreur'] = "Vous n'avez pas accès à cette zone";
         }
     }
+
 
 
     /**

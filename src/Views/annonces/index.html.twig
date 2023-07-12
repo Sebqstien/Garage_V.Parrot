@@ -1,8 +1,60 @@
 {% extends "base.html.twig" %}
 
 {% block content %}
+
 <div class="container">
-    <h2>Annonces</h2>
+    <h1>Annonces</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h5>Filtres</h5>
+            <form id="filtresForm" action="/annonces" method="POST">
+                <div class="mb-3">
+                    <label for="prixMinInput" class="form-label">Prix minimum</label>
+                    <input type="number" class="form-control" id="prixMinInput" name="prixMin">
+                </div>
+                <div class="mb-3">
+                    <label for="prixMaxInput" class="form-label">Prix maximum</label>
+                    <input type="number" class="form-control" id="prixMaxInput" name="prixMax">
+                </div>
+                <div class="mb-3">
+                    <label for="kilometresMinInput" class="form-label">Kilometres minimum</label>
+                    <input type="number" class="form-control" id="kilometresMinInput" name="kilometresMin">
+                </div>
+                <div class="mb-3">
+                    <label for="kilometresMaxInput" class="form-label">Kilometres maximum</label>
+                    <input type="number" class="form-control" id="kilometresMaxInput" name="kilometresMax">
+                </div>
+                <div class="mb-3">
+                    <label for="AnneeMinInput" class="form-label">Annee minimum</label>
+                    <input type="number" class="form-control" id="anneeMinInput" name="anneeMin">
+                </div>
+                <div class="mb-3">
+                    <label for="anneeMaxInput" class="form-label">Annee maximum</label>
+                    <input type="number" class="form-control" id="anneeMaxInput" name="anneeMax">
+                </div>
+                <div class="mb-3">
+                    <label for="marqueSelect" class="form-label">Marque</label>
+                    <select class="form-select" id="marqueSelect" name="marque">
+                        <option value="">Toutes les marques</option>
+                        {% for annonce in annonces %}
+                        <option value="{{ annonce.marque }}">{{ annonce.marque }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="carburantSelect" class="form-label">Energie</label>
+                    <select class="form-select" id="carburantSelect" name="carburant">
+                        <option value="">Tous les carburants</option>
+                        <option value="carburant1">DIESEL</option>
+                        <option value="carburant2">ESSENCE</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Filtrer</button>
+            </form>
+        </div>
+    </div>
+
 
     {% for annonce in annonces %}
     <div class="card">
@@ -30,8 +82,11 @@
                 Détails
             </a>
         </div>
-
-
-        {% endfor %}
     </div>
-    {% endblock content %}
+    {% endfor %}
+
+</div>
+{% endblock content %}
+{% block javascript %}
+<script src="/js/filter.js"></script>
+{% endblock javascript %}

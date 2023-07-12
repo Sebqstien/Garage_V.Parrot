@@ -1,0 +1,28 @@
+{% for annonce in annonces %}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ annonce.titre }}</h5>
+        {% for image in annonce.images %}
+        <img src={{image}} alt="">
+        {% endfor %}
+        <h3>Description:</h3>
+        <h6>Date de mise en ligne: {{annonce.created_at|date("d/m/Y")}}</h6>
+        <ul>
+            <li>
+                <p>Marque: {{annonce.marque}}</p>
+            </li>
+            <li>
+                <p>Annee: {{annonce.annee}}</p>
+            </li>
+            <li>
+                <p>Kilometres: {{annonce.kilometrage}}</p>
+            </li>
+        </ul>
+        <p>{{annonce.prix}} euros</p>
+        </li>
+        <a class="btn btn-secondary" href="/annonces/{{ annonce.id }}">
+            Détails
+        </a>
+    </div>
+</div>
+{% endfor %}

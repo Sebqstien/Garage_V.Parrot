@@ -15,6 +15,7 @@ class AnnoncesController extends Controller
      * @var AnnoncesModel
      */
     private AnnoncesModel $annoncesModel;
+    private array $footerData;
 
     /**
      * Constructeur
@@ -22,6 +23,7 @@ class AnnoncesController extends Controller
     public function __construct()
     {
         $this->annoncesModel = new AnnoncesModel;
+        $this->footerData = $this->getFooterData();
     }
 
 
@@ -33,8 +35,10 @@ class AnnoncesController extends Controller
     public function index(): void
     {
         $annonces = $this->annoncesModel->findAllAnnoncesWithImages();
-        $footerData = $this->getFooterData();
-        $this->render('annonces/index.html.twig', compact('annonces', 'footerData'));
+        $this->render('annonces/index.html.twig', [
+            'annonces' => $annonces,
+            'footerData' => $this->footerData
+        ]);
     }
 
 
@@ -46,9 +50,11 @@ class AnnoncesController extends Controller
     public function show(int $id): void
     {
         $annonce = $this->annoncesModel->find($id);
-        $footerData = $this->getFooterData();
 
-        $this->render('annonces/show.html.twig', compact('annonce', 'footerData'));
+        $this->render('annonces/show.html.twig', [
+            'annonce' => $annonce,
+            'footerData' => $this->footerData
+        ]);
     }
 
     /**
@@ -72,7 +78,6 @@ class AnnoncesController extends Controller
 
 
             if (!empty($_FILES['images']['name'][0])) {
-                $imagesController = new ImagesController;
                 $images = $this->upload($_FILES['images']);
                 if ($images === false) {
                     $_SESSION['erreur'] = "Echec de l'upload des images";
@@ -95,7 +100,9 @@ class AnnoncesController extends Controller
             }
         }
 
-        $this->render('/admin/form/annonceForm.html.twig');
+        $this->render('/admin/form/annonceForm.html.twig', [
+            'footerData' => $this->footerData
+        ]);
     }
 
 
@@ -139,7 +146,10 @@ class AnnoncesController extends Controller
 
         $annonce = $this->annoncesModel->find($id);
 
-        $this->render('/dashboard/annonces/edit/' . $annonce['id'], ['annonce' => $annonce]);
+        $this->render('/dashboard/annonces/edit/' . $annonce['id'], [
+            'annonce' => $annonce,
+            'footerData' => $this->footerData
+        ]);
     }
 
 
@@ -155,5 +165,27 @@ class AnnoncesController extends Controller
 
         $this->redirect('/dashboard', 301);
         exit();
+    }
+
+
+    /**
+     * Filtres les annonces avec AJAX.
+     *
+     * @return void
+     */
+    public function filterAnnoncesAction()
+    {
+        $prixMin = $_POST['prixMin'] ?? 0;
+        $prixMax = $_POST['prixMax'] ?? PHP_INT_MAX;
+        $kilometresMin = $_POST['kilometresMin'] ?? 0;
+        $kilometresMax = $_POST['kilometresMax'] ?? PHP_INT_MAX;
+        $anneeMin = $_POST['anneeMin'] ?? 0;
+        $anneeMax = $_POST['anneeMax'] ?? PHP_INT_MAX;
+        $marque = $_POST['marque'] ?? null;
+        $carburant = $_POST['carburant'] ?? null;
+
+        $annonces = $this->annoncesModel->getFilteredAnnonces($prixMin, $prixMax, $kilometresMin, $kilometresMax, $anneeMin, $anneeMax, $marque, $carburant);
+
+        return $annonces;
     }
 }

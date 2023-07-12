@@ -15,10 +15,11 @@ $router = new Router;
 // routes:
 $router->addRoute('/', 'MainController@index');
 $router->addRoute('/annonces', 'AnnoncesController@index');
+$router->addRoute("/annonces/{id}", 'AnnoncesController@show');
+$router->addRoute("/filtered-annonces", 'AnnoncesController@filterAnnoncesAction');
 $router->addRoute('/avis', 'AvisController@index');
 $router->addRoute("/contact", 'ContactController@index');
 $router->addRoute("/mail", 'ContactController@envoyerMailAction');
-$router->addRoute("/annonces/{id}", 'AnnoncesController@show');
 $router->addRoute("/login", 'Logincontroller@login');
 $router->addRoute("/logout", 'Logincontroller@logout');
 
@@ -39,6 +40,7 @@ $router->addRoute("/dashboard/users/edit/{id}", 'DashboardController@showUserFor
 //Dashboard Annonces
 $router->addRoute("/dashboard/annonces/create", 'DashboardController@showAnnonceForm');
 $router->addRoute("/dashboard/annonces/edit/{id}", 'DashboardController@showAnnonceForm');
+
 
 //Dashboard Images
 $router->addRoute("/dashboard/annonces/show/{id}", 'DashboardController@showImages');

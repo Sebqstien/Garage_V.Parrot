@@ -37,12 +37,13 @@ class ContactController extends Controller
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $nom = htmlspecialchars($_POST['nom']) ?? '';
             $email = $_POST['email'] ?? '';
+            $sujet = htmlspecialchars($_POST['sujet'] ?? '');
             $message = htmlspecialchars($_POST['message']) ?? '';
 
             $to = Config::EMAIL;
-            $sujet = 'Nouveau message depuis le formulaire de contact';
             $contenu = "Nom : $nom\n";
             $contenu .= "E-mail : $email\n\n";
+            $contenu .= "Sujet : $sujet\n\n";
             $contenu .= "Message :\n$message";
 
             $headers = 'From: ' . $email . "\r\n" .

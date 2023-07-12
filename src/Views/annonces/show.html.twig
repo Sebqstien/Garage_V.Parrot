@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 {% block content %}
-<h1>{{annonce.titre}}</h1>
+<h1 id="titreAnnonce">{{annonce.titre}}</h1>
 
 <ul>
     <li>
@@ -36,6 +36,11 @@
     </div>
 
     <div class="form-group">
+        <label for="sujet">Sujet :</label>
+        <input type="text" id="sujet" name="sujet" class="form-control">
+    </div>
+
+    <div class="form-group">
         <label for="message">Message :</label>
         <textarea id="message" name="message" class="form-control"></textarea>
     </div>
@@ -43,3 +48,6 @@
     <button type="submit" class="btn btn-primary">Envoyer</button>
 </form>
 {% endblock content %}
+{% block javascript %}
+<script src="/js/annonce.js"></script>
+{% endblock javascript %}
