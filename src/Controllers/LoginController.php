@@ -50,6 +50,7 @@ class LoginController extends Controller
 
 
                     unset($_SESSION['erreur']);
+                    unset($_SESSION['success']);
                     $_SESSION['user'] = [
                         'nom' => $userArray['nom'],
                         'prenom' => $userArray['prenom'],

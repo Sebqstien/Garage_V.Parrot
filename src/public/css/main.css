@@ -1,0 +1,86 @@
+body {
+    font-family: 'metrophobic';
+    background-color: #011126;
+    color: #f4f4f4;
+    width: 100vw;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Bootstrap */
+
+
+
+.nav-link {
+    color: #f4f4f4;
+}
+
+.nav-link:hover {
+    color: #F2cb07;
+}
+
+.btn {
+    font-family: 'antonio';
+    border-color: #F2cb07;
+    border-width: 3px;
+    color: #f4f4f4;
+    width: 150px;
+    margin-inline: auto;
+}
+
+.card {
+    background-color: #011126;
+    color: #f4f4f4;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family: 'Antonio';
+    font-weight: 600;
+
+}
+
+a {
+    font-family: 'antonio';
+    text-decoration: none;
+    color: #f4f4f4;
+}
+
+nav {
+    background-color: #011126;
+}
+
+.bg-overlay {
+    background-image: url('/assets/img/bg-overlay.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+}
+
+.bg-split {
+    background-image: url('/assets/img/bg_split.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+
+}
+
+footer {
+    background-image: url('/assets/img/bg_footer.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    background-position: center;
+    font-weight: 600;
+}

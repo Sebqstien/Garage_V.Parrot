@@ -1,19 +1,72 @@
 {% extends "base.html.twig" %}
 
 {% block content %}
-<h1>ACCUEIL</h1>
 
-<h5>Services du garage</h5>
-{% for service in services %}
-<h3>{{service.titre}}</h3>
-<p>{{service.prix}} euro</p>
-<p>{{service.description}}</p>
-{% endfor %}
+<main class="container-fluid m-0 p-0">
+    {# HERO #}
+    <section class="row border-bottom border-warning ">
+        <div class="col-sm-12 bg-overlay d-flex justify-content-evenly flex-column align-content-center flex-wrap">
+            <div>
+                <h1 class="text-center my-5">ATELIER MECANIQUE ET VEHICULES D'OCCASION</h1>
+                <h5 class="text-warning text-center fs-5 ">GARAGE VINCENT PARROT</h5>
+            </div>
+            <button class="btn"><a class="fs-5" href="/contact ">CONTACTEZ-NOUS</a></button>
+        </div>
+    </section>
 
-<h5>Avis Clients</h5>
-{% for item in avis %}
-<p>{{item.nom}}</p>
-<p>{{item.note}} /5</p>
-<p>{{item.commentaire_avis}}</p>
-{% endfor %}
+    {# SERVICES #}
+    <section class=" row border-bottom border-warning">
+        <div class="col-sm-12 d-flex  flex-column align-content-center flex-wrap py-5">
+            <h2 id="services" class="text-center text-warning my-5">Services du garage</h2>
+            {% for service in services %}
+            <div class="col-sm-10  col-xl-8 border border-warning d-flex m-5 flex-column text-center p-5">
+                <h3><i class="text-warning bi bi-tools m-2"></i> {{service.titre}}</h3>
+                <h6 class="text-warning fs-1 fw-bold my-5">{{service.prix}} €</h6>
+                <p class="fs-5">{{service.description}}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+
+    <div class="bg-split border-bottom border-warning"></div>
+
+    {# AVIS CLIENTS #}
+    <section class="row border-bottom border-warning py-5">
+        <div class="text-center py-5">
+            <h2 class="text-warning">Avis Clients</h2>
+            <div id="carouselAvis" class="carousel slide py-5" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for item in avis %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <h5 class="my-5">{{ item.nom }}</h5>
+                        <p class="fs-3">
+                            {% for star in range(1, 5) %}
+                            {% if star <= item.note %} <i class="text-warning bi bi-star-fill"></i>
+                                {% else %}
+                                <i class="text-warning bi bi-star"></i>
+                                {% endif %}
+                                {% endfor %}
+                        </p>
+                        <p class="fs-5 my-5"><i class="bi bi-quote"></i>{{ item.commentaire_avis }}<i
+                                class="bi bi-quote"></i></p>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselAvis" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselAvis" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        </div>
+    </section>
+
+</main>
+
 {% endblock content %}
