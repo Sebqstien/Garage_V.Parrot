@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+<main class="container d-flex flex-column flex-wrap align-content-center border-bottom border-warning py-5">
+    <h1 class="text-center text-warning my-5">Avis client</h1>
+    <a class="text-warning fw-bold text-center" href="/dashboard/avis">Retour</a>
+
+    {% for item in avis %}
+    <div class="card text-center py-5">
+        <div class="card-body">
+            <h3 class="card-title">Avis de {{ item.nom }}</h3>
+            <p class="card-text fs-5">{{ item.commentaire_avis }}</p>
+            <p class="card-text fw-bold fs-3">{{ item.note }} / 5</p>
+
+            <div class="mt-4">
+                <a href="/dashboard/avis/delete/{{ item.id }}" class="btn btn-danger"><i class="bi bi-x-circle"></i></a>
+
+                {% if not avis.valide %}
+                <a href="/dashboard/avis/approved/{{ item.id }}" class="btn btn-success"><i
+                        class="bi bi-check-lg"></i></a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+
+
+</main>
+{% endblock %}

@@ -1,0 +1,295 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+<main class="container-fluid d-flex flex-column flex-wrap align-content-center py-5 border-bottom border-warning">
+
+
+    <h1 class="text-warning text-center my-5">Dashboard</h1>
+    <div class=" d-flex flex-column align-content-start flex-wrap m-5 p-5">
+        <h3>Bonjour Mr {{ session.user['nom'] }}</h3>
+        <a href="/logout" class="text-warning">Se déconnecter</a>
+    </div>
+
+    <div class="container-fluid row ">
+        <!-- Navigation -->
+        <ul class="nav navbar-dark nav-pills my-3 col-sm-12 d-flex justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link {% if currentTab == 'annonces' %}active{% endif %}" href="/dashboard">Annonces</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if currentTab == 'avis' %}active{% endif %}" href="/dashboard/avis">Avis</a>
+            </li>
+            {% if isAdmin %}
+            <li class="nav-item">
+                <a class="nav-link {% if currentTab == 'users' %}active{% endif %}"
+                    href="/dashboard/users">Utilisateurs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if currentTab == 'services' %}active{% endif %}"
+                    href="/dashboard/services">Services</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if currentTab == 'garages' %}active{% endif %}"
+                    href="/dashboard/garages">Garages</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if currentTab == 'horaires' %}active{% endif %}"
+                    href="/dashboard/horaires">Horaires</a>
+            </li>
+            {% endif %}
+        </ul>
+
+        {% if currentTab == 'annonces' %}
+
+        <!-- Contenu du tableau des annonces -->
+        <div class="table-responsive mt-4 py-5">
+            <table class="table-dark table-striped">
+                <thead class="border-bottom border-warning ">
+                    <tr>
+                        <th class="p-3">ID</th>
+                        <th class="p-3">Titre</th>
+                        <th class="p-3">Description</th>
+                        <th class="p-3">Marque</th>
+                        <th class="p-3">Modèle</th>
+                        <th class="p-3">Carburant</th>
+                        <th class="p-3">Prix</th>
+                        <th class="p-3">Kilométrage</th>
+                        <th class="p-3">Année</th>
+                        <th class="p-3">Images</th>
+                        <th class="p-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    {% for annonce in annonces %}
+                    <tr>
+                        <td class="border border-warning">{{ annonce.id }}</td>
+                        <td class="border border-warning">{{ annonce.titre }}</td>
+                        <td class="border border-warning">{{ annonce.description }}</td>
+                        <td class="border border-warning">{{ annonce.marque }}</td>
+                        <td class="border border-warning">{{ annonce.modele }}</td>
+                        <td class="border border-warning">{{ annonce.carburant }}</td>
+                        <td class="border border-warning">{{ annonce.prix }}</td>
+                        <td class="border border-warning">{{ annonce.kilometrage }}</td>
+                        <td class="border border-warning">{{ annonce.annee }}</td>
+                        <td class="border border-warning p-3 ">
+                            {% for image in annonce.images %}
+                            <img src='/{{ image }}' alt="Miniature" class="img-thumbnail my-2">
+                            {% endfor %}
+
+                        </td>
+                        <td class="border border-warning">
+                            <a href="/dashboard/annonces/show/{{ annonce.id }}" class="m-2 btn">Gerer Images</a>
+                            <a href="/dashboard/annonces/edit/{{ annonce.id }}" class="m-2 btn btn-primary">Modifier</a>
+                            <a href="/dashboard/annonces/delete/{{ annonce.id }}" onclick="ConfirmDelete()"
+                                class="m-2 btn btn-danger">Supprimer</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="mt-4">
+                <a href="/dashboard/annonces/create" class="btn btn-success">Ajouter une annonce</a>
+            </div>
+        </div>
+
+        {% elseif currentTab == 'avis' %}
+        <!-- Contenu du tableau des avis Clients -->
+        <div class="table-responsive mt-4 py-5 d-flex flex-column">
+            <table class="table-dark table-striped">
+                <thead class="border-bottom border-warning ">
+                    <tr>
+                        <th class="p-3">ID</th>
+                        <th class="p-3">Nom</th>
+                        <th class="p-3">Note</th>
+                        <th class="p-3">Commentaires</th>
+                        <th class="p-3">Approuve</th>
+
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    {% for item in avis %}
+                    <tr>
+                        <td class="border border-warning">{{ item.id }}</td>
+                        <td class="border border-warning">{{ item.nom }}</td>
+                        <td class="border border-warning">{{ item.note }}</td>
+                        <td class="border border-warning">{{ item.commentaire_avis }}</td>
+                        <td class="border border-warning">
+                            <a href="/dashboard/avis/read/{{ item.id }}" class="btn  m-2">lire</a>
+                            <a href="/dashboard/avis/delete/{{ item.id }}" onclick="ConfirmDelete()"
+                                class="btn btn-danger m-2">Supprimer</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="mt-4">
+                <a href="/dashboard/avis/create" class="btn btn-success">Ajouter un Avis</a>
+            </div>
+        </div>
+
+
+        {% elseif currentTab == 'users' %}
+        <!-- Contenu du tableau des utilisateurs -->
+        <div class="table-responsive mt-4 py-5 d-flex flex-column">
+            <table class="table-dark table-striped">
+                <thead class="border-bottom border-warning ">
+                    <tr>
+                        <th class="p-3">ID</th>
+                        <th class="p-3">Nom</th>
+                        <th class="p-3">Prénom</th>
+                        <th class="p-3">Email</th>
+                        <th class="p-3">Admin</th>
+                        <th class="p-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    {% for user in users %}
+                    <tr>
+                        <td class="border border-warning">{{ user.id }}</td>
+                        <td class="border border-warning">{{ user.nom }}</td>
+                        <td class="border border-warning">{{ user.prenom }}</td>
+                        <td class="border border-warning">{{ user.email }}</td>
+                        <td class="border border-warning">{{ user.is_admin }}</td>
+                        {% if isAdmin %}
+                        <td class="border border-warning">
+                            <a href="/dashboard/users/edit/{{ user.id }}" class="btn btn-primary m-2">Modifier</a>
+                            <a href="/dashboard/users/delete/{{ user.id }}" onclick="ConfirmDelete()"
+                                class="btn btn-danger m-2">Supprimer</a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if isAdmin %}
+            <div class="mt-4">
+                <a href="/dashboard/users/create" class="btn btn-success">Ajouter un utilisateur</a>
+            </div>
+            {% endif %}
+        </div>
+
+
+
+        {% elseif currentTab == 'services' %}
+        <!-- Contenu du tableau des services -->
+        <div class="table-responsive mt-4  py-5 d-flex flex-column">
+            <table class="table-dark table-striped">
+                <thead class="border-bottom border-warning ">
+                    <tr>
+                        <th class="p-3">ID</th>
+                        <th class="p-3">Titre</th>
+                        <th class="p-3">Description</th>
+                        <th class="p-3">Prix</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    {% for service in services %}
+                    <tr>
+                        <td class="border border-warning">{{ service.id }}</td>
+                        <td class="border border-warning">{{ service.titre }}</td>
+                        <td class="border border-warning">{{ service.description }}</td>
+                        <td class="border border-warning">{{ service.prix }}€</td>
+
+                        {% if isAdmin %}
+                        <td class="border border-warning">
+                            <a href="/dashboard/services/edit/{{ service.id }}" class="btn btn-primary m-2">Modifier</a>
+                            <a href="/dashboard/services/delete/{{ service.id }}" onclick="ConfirmDelete()"
+                                class="btn btn-danger m-2">Supprimer</a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if isAdmin %}
+            <div class="mt-4">
+                <a href="/dashboard/services/create" class="btn btn-success">Ajouter un service</a>
+            </div>
+            {% endif %}
+        </div>
+
+
+        {% elseif currentTab == 'garages' %}
+        <!-- Contenu du tableau des garages -->
+        <div class="table-responsive mt-4  py-5 d-flex flex-column">
+            <table class="table-dark table-striped">
+                <thead class="border-bottom border-warning ">
+                    <tr>
+                        <th class="p-3">ID</th>
+                        <th class="p-3">Nom</th>
+                        <th class="p-3">Email</th>
+                        <th class="p-3">Téléphone</th>
+                        <th class="p-3">Adresse</th>
+                        {% if isAdmin %}
+                        <th class="p-3">Action</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    {% for item in garages %}
+                    <tr>
+                        <td class="border border-warning">{{ item.id }}</td>
+                        <td class="border border-warning">{{ item.nom }}</td>
+                        <td class="border border-warning">{{ item.email }}</td>
+                        <td class="border border-warning">0{{ item.telephone }}</td>
+                        <td class="border border-warning">{{ item.adresse }}</td>
+                        {% if isAdmin %}
+                        <td class="border border-warning">
+                            <a href="/dashboard/garages/edit/{{ item.id }}" class="btn btn-primary m-2">Modifier</a>
+                            <a href="/dashboard/garages/delete/{{ item.id }}" onclick="ConfirmDelete()"
+                                class="btn btn-danger m-2">Supprimer</a>
+
+                        </td>
+                        {% endif %}
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if isAdmin %}
+            <div class="mt-4">
+                <a href="/dashboard/garages/create" class="btn btn-success">Ajouter un Garage</a>
+            </div>
+            {% endif %}
+        </div>
+
+        {% elseif currentTab == 'horaires' %}
+        <!-- Contenu du tableau des horaires -->
+        <div class="table-responsive mt-4 py-5 d-flex flex-column">
+            <table class="table-dark table-striped">
+                <thead class="border-bottom border-warning ">
+                    <tr>
+                        <th class="p-3">ID</th>
+                        <th class="p-3">jours d'ouvertures</th>
+                        <th class="p-3">Heure Matin</th>
+                        <th class="p-3">Heure Apres-midi</th>
+
+                        {% if isAdmin %}
+                        <th>Action</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    {% for item in horaires %}
+                    <tr>
+                        <td class="border border-warning">{{ item.id }}</td>
+                        <td class="border border-warning">{{ item.jours_ouverture }}</td>
+                        <td class="border border-warning">{{ item.heures_PM }}</td>
+                        <td class="border border-warning">{{ item.heures_AM }}</td>
+                        {% if isAdmin %}
+                        <td class="border border-warning">
+                            <a href="/dashboard/horaires/edit/{{ item.id }}" class="btn btn-primary m-2">Modifier</a>
+                        </td>
+                        {% endif %}
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock content %}
