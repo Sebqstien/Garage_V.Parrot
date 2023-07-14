@@ -1,55 +1,61 @@
 {% extends "base.html.twig" %}
 
 {% block content %}
-<div class="mt-4">
-    <h2>{{ annonce.id is defined ? 'Modifier' : 'Créer' }} une annonce</h2>
-    <form action="/dashboard/annonces/save{{ annonce is defined and annonce.id is defined ? '/' ~ annonce.id : '' }}"
+<main
+    class="container-fluid m-0 p-0 border-bottom border-warning py-5 d-flex flex-wrap align-content-center flex-column">
+    <h1 class="text-center text-warning my-5">{{ annonce.id is defined ? 'Modifier' : 'Créer' }} une annonce</h1>
+    <a class="text-warning text-center fw-bold m-5 " href="/dashboard">Retour</a>
+    <form class="col-sm-8 col-xl-6"
+        action="/dashboard/annonces/save{{ annonce is defined and annonce.id is defined ? '/' ~ annonce.id : '' }}"
         method="POST" enctype="multipart/form-data">
         {% if annonce is defined and annonce.id is defined %}
         <input type="hidden" name="_method" value="PUT">
         {% endif %}
-        <div class="form-group">
+        <div class="form-group my-3">
             <label for="titre">Titre</label>
-            <input type="text" class="form-control" id="titre" name="titre" value="{{ annonce.titre ?? '' }}" required>
+            <input type="text" class="form-control my-1" id="titre" name="titre" value="{{ annonce.titre ?? '' }}"
+                required>
         </div>
-        <div class="form-group">
+        <div class="form-group my-3">
             <label for="description">Description</label>
-            <textarea class="form-control" id="description" name="description"
+            <textarea class="form-control my-1" id="description" name="description"
                 required>{{ annonce.description ?? '' }}</textarea>
         </div>
-        <div class="form-group">
+        <div class="form-group my-3">
             <label for="marque">Marque</label>
-            <input type="text" class="form-control" id="marque" name="marque" value="{{ annonce.marque ?? '' }}"
+            <input type="text" class="form-control my-1" id="marque" name="marque" value="{{ annonce.marque ?? '' }}"
                 required>
         </div>
-        <div class="form-group">
+        <div class="form-group my-3">
             <label for="modele">Modèle</label>
-            <input type="text" class="form-control" id="modele" name="modele" value="{{ annonce.modele ?? '' }}"
+            <input type="text" class="form-control my-1" id="modele" name="modele" value="{{ annonce.modele ?? '' }}"
                 required>
         </div>
-        <div class="form-group">
+        <div class="form-group my-3">
             <label for="carburant">Carburant</label>
-            <input type="text" class="form-control" id="carburant" name="carburant"
+            <input type="text" class="form-control my-1" id="carburant" name="carburant"
                 value="{{ annonce.carburant ?? '' }}" required>
         </div>
-        <div class="form-group">
+        <div class="form-group my-3">
             <label for="prix">Prix</label>
-            <input type="number" class="form-control" id="prix" name="prix" value="{{ annonce.prix ?? 0 }}" required>
+            <input type="number" class="form-control my-1" id="prix" name="prix" value="{{ annonce.prix ?? 0 }}"
+                required>
         </div>
-        <div class="form-group">
+        <div class="form-group my-3">
             <label for="kilometrage">Kilométrage</label>
-            <input type="text" class="form-control" id="kilometrage" name="kilometrage"
+            <input type="text" class="form-control my-1" id="kilometrage" name="kilometrage"
                 value="{{ annonce.kilometrage ?? '' }}" required>
         </div>
-        <div class="form-group">
+        <div class="form-group my-3">
             <label for="annee">Année</label>
-            <input type="text" class="form-control" id="annee" name="annee" value="{{ annonce.annee ?? '' }}" required>
+            <input type="text" class="form-control my-1" id="annee" name="annee" value="{{ annonce.annee ?? '' }}"
+                required>
         </div>
-        <div class="form-group">
-            <label for="images">Images</label>
-            <input type="file" class="form-control-file" id="images" name="images[]" multiple>
+        <div class="form-group my-3">
+            <label for="images">Images: </label>
+            <input type="file" class="form-control-file my-1" id="images" name="images[]" multiple>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">{{ annonce.id is defined ? 'Modifier' : 'Créer' }}</button>
+        <button type="submit" class="btn btn-primary my-5">{{ annonce.id is defined ? 'Modifier' : 'Créer' }}</button>
     </form>
-</div>
+</main>
 {% endblock content %}

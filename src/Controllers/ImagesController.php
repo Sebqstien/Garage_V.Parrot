@@ -59,7 +59,7 @@ class ImagesController extends Controller
     public function deleteImageAction(int $id): void
     {
         $imagesModel = new ImagesModel;
-        $image = $imagesModel->findBy("*", "id_image", $id);
+        $image = $imagesModel->findBy("*", "id", $id);
 
         if ($image) {
             $path = $image[0]['path_image'];

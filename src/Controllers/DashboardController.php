@@ -85,6 +85,7 @@ class DashboardController extends Controller
     public function index(): void
     {
         unset($_SESSION['erreur']);
+        unset($_SESSION['success']);
 
         if (isset($_SESSION['user'])) {
             $userEmail = $_SESSION['user']['email'];
@@ -290,7 +291,7 @@ class DashboardController extends Controller
     {
         if (isset($_SESSION['user'])) {
             $annonce = $this->annoncesModel->find($id);
-            $images = $this->imagesModel->findBy("path_image, id_image", "id_voiture", $id);
+            $images = $this->imagesModel->findBy("path_image, id", "id_voiture", $id);
             $this->render('admin/showImages.html.twig', [
                 'images' => $images,
                 'annonce' => $annonce,

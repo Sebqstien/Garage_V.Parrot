@@ -1,30 +1,33 @@
 {% extends "base.html.twig" %}
 {% block content %}
-<div class="mt-4">
-    <h2>{{ garage.id is defined ? 'Modifier' : 'Ajouter' }} un garage</h2>
+<main class="container-fluid d-flex flex-column flex-wrap align-content-center py-5 border-bottom border-warning">
+    <h1 class="text-center text-warning my-5">{{ garage.id is defined ? 'Modifier' : 'Ajouter' }} un garage</h1
+        class="text-center text-warning my-5">
+    <a class="text-warning text-center fw-bold m-5 " href="/dashboard/garages">Retour</a>
     <form action="/dashboard/garages/save{{ garage.id is defined ? '/' ~ garage.id : '' }}" method="POST">
         {% if garage.id is defined %}
         <input type="hidden" name="id" value="{{ garage.id }}">
         {% endif %}
         <div class="form-group">
             <label for="nom">Nom du garage</label>
-            <input type="text" class="form-control" id="nom" name="nom" value="{{ garage.nom ?? '' }}" required>
+            <input type="text" class="form-control my-3" id="nom" name="nom" value="{{ garage.nom ?? '' }}" required>
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ garage.email ?? '' }}" required>
+            <input type="email" class="form-control my-3" id="email" name="email" value="{{ garage.email ?? '' }}"
+                required>
         </div>
         <div class="form-group">
             <label for="telephone">Telephone</label>
-            <input type="text" class="form-control" id="telephone" name="telephone" value="{{ garage.telephone ?? '' }}"
-                required>
+            <input type="text" class="form-control my-3" id="telephone" name="telephone"
+                value="{{ garage.telephone ?? '' }}" required>
         </div>
         <div class="form-group">
             <label for="adresse">Adresse</label>
-            <input type="text" class="form-control" id="adresse" name="adresse" value="{{ garage.adresse ?? '' }}"
+            <input type="text" class="form-control my-3" id="adresse" name="adresse" value="{{ garage.adresse ?? '' }}"
                 required>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">{{ garage.id is defined ? 'Modifier' : 'Ajouter' }}</button>
+        <button type="submit" class="btn btn-primary my-3">{{ garage.id is defined ? 'Modifier' : 'Ajouter' }}</button>
     </form>
-</div>
+</main>
 {% endblock %}

@@ -32,6 +32,8 @@ class MainController extends Controller
      */
     public function index(): void
     {
+        unset($_SESSION['erreur']);
+        unset($_SESSION['success']);
         $footerData = $this->getFooterData();
         $services = $this->servicesModel->findAll();
         $avis = $this->avisModel->findAll();

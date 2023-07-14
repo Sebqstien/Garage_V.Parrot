@@ -24,6 +24,18 @@
     color: #f4f4f4;
 }
 
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    background-color: #F2cb07;
+    color: #011126;
+}
+
+.img-thumbnail {
+    width: 100px;
+}
+
+/* CUSTOM */
+
 h1,
 h2,
 h3,
@@ -46,6 +58,8 @@ nav {
     background-color: #011126;
 }
 
+
+
 body {
     font-family: 'metrophobic';
     background-color: #011126;
@@ -64,7 +78,7 @@ footer {
     background-image: url('/assets/img/bg_footer.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    width: 100%;
+    max-width: 100%;
     background-position: center;
     font-weight: 600;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
