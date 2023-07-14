@@ -15,7 +15,6 @@ $router = new Router;
 $router->addRoute('/', 'MainController@index');
 $router->addRoute('/annonces', 'AnnoncesController@index');
 $router->addRoute("/annonces/{id}", 'AnnoncesController@show');
-$router->addRoute("/filtered-annonces", 'AnnoncesController@filterAnnoncesAction');
 $router->addRoute('/avis', 'AvisController@index');
 $router->addRoute("/contact", 'ContactController@index');
 $router->addRoute("/mail", 'ContactController@envoyerMailAction');

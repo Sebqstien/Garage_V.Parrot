@@ -4,13 +4,11 @@
 <main class="container-fluid m-0 p-0">
     <h1 class="text-center text-warning my-5">Les Occasions</h1>
 
-
     {# FILTER #}
-    <section class="row my-5 border-bottom border-warning   d-flex flex-column align-content-center flex-wrap ">
+    <section class="row my-5 border-bottom border-warning d-flex flex-column align-content-center flex-wrap">
         <h3 class="text-center text-warning mt-5">Filtres</h3>
 
-        <form id="filtresForm" action="/annonces" method="POST"
-            class="d-flex justify-content-around flex-wrap col-xl-8 offset-xl-2">
+        <form id="filtresForm" method="POST" class=" d-flex justify-content-around flex-wrap col-xl-8 offset-xl-2">
             <div>
                 <div class="m-3">
                     <label for="prixMinInput" class="form-label">Prix minimum</label>
@@ -44,7 +42,7 @@
                 </div>
             </div>
 
-            <div>
+            <div class="d-flex flex-column mb-5">
                 <div class="m-3">
                     <label for="marqueSelect" class="form-label">Marque</label>
                     <select class="form-select" id="marqueSelect" name="marque">
@@ -62,77 +60,78 @@
                         <option value="carburant2">ESSENCE</option>
                     </select>
                 </div>
+                <button type="submit" class="btn my-3">Filtrer</button>
             </div>
-
         </form>
-        <button type="submit" class="btn my-5">Filtrer</button>
     </section>
-
-
 
     {# ANNONCES #}
-    <section class="row  border-bottom border-warning py-5">
+    <section class="row border-bottom border-warning py-5">
+        <div id="annoncesContainer">
+            {% for annonce in annonces %}
+            <div class="card" data-prix="{{ annonce.prix }}" data-kilometres="{{ annonce.kilometrage }}"
+                data-annee="{{ annonce.annee }}" data-marque="{{ annonce.marque }}"
+                data-carburant="{{ annonce.carburant }}">
+                <div class="card-body">
+                    <h3 class="card-title text-center my-5">{{ annonce.titre }}</h3>
 
-        {% for annonce in annonces %}
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title text-center my-5">{{ annonce.titre }}</h3>
-
-                <div class="d-flex justify-content-center">
-
-                    <div id="carousel{{ annonce.id }}" class="carousel slide" data-bs-ride=" carousel">
-                        <div class="carousel-inner ">
-                            {% for index, image in annonce.images|slice(0, 3) %}
-                            <div class=" carousel-item {% if index==0 %}active{% endif %}">
-                                <img src="{{ image }}" class="img-fluid border border-warning" alt="Image {{ index }}">
+                    <div class="d-flex justify-content-center">
+                        <div id="carousel{{ annonce.id }}" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for index, image in annonce.images|slice(0, 3) %}
+                                <div class="carousel-item {% if index == 0 %}active{% endif %}">
+                                    <img src="{{ image }}" class="img-fluid border border-warning"
+                                        alt="Image {{ index }}">
+                                </div>
+                                {% endfor %}
                             </div>
-                            {% endfor %}
+                            <button class="carousel-control-prev" type="button"
+                                data-bs-target="#carousel{{ annonce.id }}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                data-bs-target="#carousel{{ annonce.id }}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ annonce.id }}"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ annonce.id }}"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
+                    </div>
+
+                    <div class="d-flex justify-content-center flex-column align-content-center flex-wrap">
+                        <h6 class="text-center my-3">Date de mise en ligne: {{ annonce.created_at|date("d/m/Y") }}</h6>
+                        <h5 class="my-5">Description:</h5>
+                        <ul>
+                            <li>
+                                <p>Marque: {{ annonce.marque }}</p>
+                            </li>
+                            <li>
+                                <p>Modèle: {{ annonce.modele }}</p>
+                            </li>
+                            <li>
+                                <p>Énergie: {{ annonce.carburant }}</p>
+                            </li>
+                            <li>
+                                <p>Année: {{ annonce.annee }}</p>
+                            </li>
+                            <li>
+                                <p>Kilomètres: {{ annonce.kilometrage }} km</p>
+                            </li>
+                        </ul>
+                        <h3 class="text-warning fs-1 text-center my-5">{{ annonce.prix }} €</h3>
+                        <a class="btn" href="/annonces/{{ annonce.id }}">Détails</a>
                     </div>
                 </div>
-
-                <div class="d-flex justify-content-center flex-column align-content-center flex-wrap">
-                    <h6 class="text-center my-3">Date de mise en ligne: {{ annonce.created_at|date("d/m/Y") }}</h6>
-                    <h5 class="my-5">Description:</h5>
-                    <ul>
-                        <li>
-                            <p>Marque: {{ annonce.marque }}</p>
-                        </li>
-                        <li>
-                            <p>Modele: {{ annonce.modele }}</p>
-                        </li>
-                        <li>
-                            <p>Energie: {{ annonce.carburant }}</p>
-                        </li>
-                        <li>
-                            <p>Annee: {{ annonce.annee }}</p>
-                        </li>
-                        <li>
-                            <p>Kilometres: {{ annonce.kilometrage }} km</p>
-                        </li>
-                    </ul>
-                    <h3 class="text-warning fs-1 text-center my-5 ">{{ annonce.prix }} €</h3>
-                    <a class="btn" href="/annonces/{{ annonce.id }}">Détails</a>
-                </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
 
+        {# BTN on top #}
+        <button id="topBtn" onclick="onTop()" class="btn"><i class="bi bi-arrow-up-circle-fill"></i></button>
     </section>
-
-
 </main>
 {% endblock content %}
+
 {% block javascript %}
 <script src="/js/filter.js"></script>
 {% endblock javascript %}

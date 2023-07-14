@@ -165,26 +165,4 @@ class AnnoncesController extends Controller
         $this->redirect('/dashboard', 301);
         exit();
     }
-
-
-    /**
-     * Filtres les annonces avec AJAX.
-     *
-     * @return void
-     */
-    public function filterAnnoncesAction()
-    {
-        $prixMin = $_POST['prixMin'] ?? 0;
-        $prixMax = $_POST['prixMax'] ?? PHP_INT_MAX;
-        $kilometresMin = $_POST['kilometresMin'] ?? 0;
-        $kilometresMax = $_POST['kilometresMax'] ?? PHP_INT_MAX;
-        $anneeMin = $_POST['anneeMin'] ?? 0;
-        $anneeMax = $_POST['anneeMax'] ?? PHP_INT_MAX;
-        $marque = $_POST['marque'] ?? null;
-        $carburant = $_POST['carburant'] ?? null;
-
-        $annonces = $this->annoncesModel->getFilteredAnnonces($prixMin, $prixMax, $kilometresMin, $kilometresMax, $anneeMin, $anneeMax, $marque, $carburant);
-
-        return $annonces;
-    }
 }

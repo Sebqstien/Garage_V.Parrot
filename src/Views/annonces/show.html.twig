@@ -30,7 +30,7 @@
     </section>
 
     {# FORMULAIRE #}
-    <section class="border-bottom border-warning  p-5">
+    <section class="border-bottom border-warning  p-5 col-sm-8 d-flex flex-column flex-wrap mx-auto">
         <h2 class="text-center text-warning my-5">Contactez-nous</h2>
         <form method="POST" action="/mail">
             <div class="form-group">
@@ -55,6 +55,9 @@
 
             <button type="submit" class="btn my-5">Envoyer</button>
         </form>
+        {# BTN on top #}
+        <button id="topBtn" onclick="onTop()" class="btn"><i class="bi bi-arrow-up-circle-fill"></i></button>
+        <a class="text-warning fw-bold text-center" href="/annonces">Retour</a>
     </section>
 
 

@@ -55,7 +55,7 @@ class ContactController extends Controller
                 $_SESSION['erreur'] = "Une erreur est survenue lors de l'envoi du message.";
             }
 
-            $this->redirect('/', 301);
+            $this->redirect('/contact', 301);
             exit();
         }
     }

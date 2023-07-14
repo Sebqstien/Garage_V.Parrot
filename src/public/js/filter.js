@@ -1,29 +1,38 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var filtresForm = document.getElementById('filtresForm');
-    var annoncesContainer = document.getElementById('annoncesContainer');
+    const filtresForm = document.getElementById('filtresForm');
 
-    filtresForm.addEventListener('submit', function (event) {
-        event.preventDefault();
+    filtresForm.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-        var formData = new FormData(filtresForm);
+        const annonces = document.getElementsByClassName('card');
+        const prixMin = document.getElementById('prixMinInput').value;
+        const prixMax = document.getElementById('prixMaxInput').value;
+        const kilometresMin = document.getElementById('kilometresMinInput').value;
+        const kilometresMax = document.getElementById('kilometresMaxInput').value;
+        const anneeMin = document.getElementById('anneeMinInput').value;
+        const anneeMax = document.getElementById('anneeMaxInput').value;
+        const marque = document.getElementById('marqueSelect').value;
+        const carburant = document.getElementById('carburantSelect').value;
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/annonces');
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var annonces = JSON.parse(xhr.responseText);
+        for (let i = 0; i < annonces.length; i++) {
+            const annonce = annonces[i];
+            const annoncePrix = parseInt(annonce.getAttribute('data-prix'));
+            const annonceKilometres = parseInt(annonce.getAttribute('data-kilometres'));
+            const annonceAnnee = parseInt(annonce.getAttribute('data-annee'));
+            const annonceMarque = annonce.getAttribute('data-marque');
+            const annonceCarburant = annonce.getAttribute('data-carburant');
 
-                // Mettre à jour le contenu des annonces avec les données filtrées
-                annoncesContainer.innerHTML = '';
+            const correspondancePrix = (prixMin === '' || annoncePrix >= prixMin) && (prixMax === '' || annoncePrix <= prixMax);
+            const correspondanceKilometres = (kilometresMin === '' || annonceKilometres >= kilometresMin) && (kilometresMax === '' || annonceKilometres <= kilometresMax);
+            const correspondanceAnnee = (anneeMin === '' || annonceAnnee >= anneeMin) && (anneeMax === '' || annonceAnnee <= anneeMax);
+            const correspondanceMarque = marque === '' || annonceMarque === marque;
+            const correspondanceCarburant = carburant === '' || annonceCarburant === carburant;
 
-                for (var i = 0; i < annonces.length; i++) {
-                    var annonce = annonces[i];
-
-                    // Créer les éléments HTML pour chaque annonce
-                    // et les ajouter à annoncesContainer
-                }
+            if (correspondancePrix && correspondanceKilometres && correspondanceAnnee && correspondanceMarque && correspondanceCarburant) {
+                annonce.style.display = 'block';
+            } else {
+                annonce.style.display = 'none';
             }
-        };
-        xhr.send(formData);
+        }
     });
 });
