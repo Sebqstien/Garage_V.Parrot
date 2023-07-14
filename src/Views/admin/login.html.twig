@@ -1,12 +1,26 @@
 {% extends "base.html.twig" %}
 {% block content %}
-<h1>Page de connexion</h1>
-<form method="post">
-    <label for="email">Email</label>
-    <input type="text" name="email" placeholder="email" id="email">
-    <label for="password">Mot de passe</label>
-    <input type="password" name="password" placeholder="password" id="password">
-    <button type="submit">Se connecter</button>
-</form>
+<main class="container-fluid m-0 p-0">
+    <h1 class="text-center text-warning my-5">Page de connexion</h1>
+    <div style="height: 80vh"
+        class="d-flex flex-column align-content-center justify-content-around flex-wrap border-bottom border-warning">
+
+        <form method="post" class="d-flex flex-column">
+
+
+            <label for="email">Email</label>
+            <input type="text" name="email" placeholder="email" id="email"
+                class="form-control border border-warning my-1">
+
+
+            <label for="password" class="mt-5">Mot de passe</label>
+            <input type="password" name="password" placeholder="password" id="password"
+                class="form-control border border-warning my-1">
+            <button type="submit" class="btn my-5">Se connecter</button>
+        </form>
+    </div>
+
+</main>
+
 
 {% endblock content %}

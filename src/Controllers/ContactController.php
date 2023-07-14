@@ -17,11 +17,10 @@ class ContactController extends Controller
      */
     public function index(): void
     {
-        $footerData = $this->getFooterData();
         $this->render(
             '/contact/index.html.twig',
             [
-                'footerData' => $footerData
+                'footerData' => $this->getFooterData()
             ]
         );
     }

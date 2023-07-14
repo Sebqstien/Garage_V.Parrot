@@ -1,14 +1,3 @@
-body {
-    font-family: 'metrophobic';
-    background-color: #011126;
-    color: #f4f4f4;
-    width: 100vw;
-}
-
-ul {
-    list-style: none;
-}
-
 /* Bootstrap */
 
 
@@ -57,13 +46,37 @@ nav {
     background-color: #011126;
 }
 
+body {
+    font-family: 'metrophobic';
+    background-color: #011126;
+    color: #f4f4f4;
+    max-width: 100vw;
+    min-width: 375px;
+    overflow-x: hidden;
+}
+
+ul {
+    list-style: none;
+}
+
+
+footer {
+    background-image: url('/assets/img/bg_footer.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    background-position: center;
+    font-weight: 600;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
 .bg-overlay {
     background-image: url('/assets/img/bg-overlay.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     height: 100vh;
-    width: 100%;
+    max-width: 100%;
 }
 
 .bg-split {
@@ -74,13 +87,4 @@ nav {
     height: 100vh;
     width: 100%;
 
-}
-
-footer {
-    background-image: url('/assets/img/bg_footer.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 100%;
-    background-position: center;
-    font-weight: 600;
 }

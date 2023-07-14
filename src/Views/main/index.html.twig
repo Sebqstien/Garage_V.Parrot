@@ -5,7 +5,7 @@
 <main class="container-fluid m-0 p-0">
     {# HERO #}
     <section class="row border-bottom border-warning ">
-        <div class="col-sm-12 bg-overlay d-flex justify-content-evenly flex-column align-content-center flex-wrap">
+        <div class=" bg-overlay d-flex justify-content-evenly flex-column align-content-center flex-wrap">
             <div>
                 <h1 class="text-center my-5">ATELIER MECANIQUE ET VEHICULES D'OCCASION</h1>
                 <h5 class="text-warning text-center fs-5 ">GARAGE VINCENT PARROT</h5>
@@ -20,7 +20,7 @@
             <h2 id="services" class="text-center text-warning my-5">Services du garage</h2>
             {% for service in services %}
             <div class="col-sm-10  col-xl-8 border border-warning d-flex m-5 flex-column text-center p-5">
-                <h3><i class="text-warning bi bi-tools m-2"></i> {{service.titre}}</h3>
+                <h3><i class="bi bi-caret-right-fill text-warning"></i></i> {{service.titre}}</h3>
                 <h6 class="text-warning fs-1 fw-bold my-5">{{service.prix}} €</h6>
                 <p class="fs-5">{{service.description}}</p>
             </div>

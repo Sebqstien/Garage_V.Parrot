@@ -70,7 +70,9 @@ class LoginController extends Controller
             }
         }
 
-        $this->render('/admin/login.html.twig');
+        $this->render('/admin/login.html.twig', [
+            'footerData' => $this->getFooterData()
+        ]);
     }
 
 

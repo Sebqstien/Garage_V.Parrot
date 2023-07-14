@@ -75,53 +75,59 @@
 
         {% for annonce in annonces %}
         <div class="card">
-            <div class="card-body d-flex flex-column align-content-center justify-content-center flex-wrap">
-                <h5 class="card-title text-warning text-center my-5 fs-3">{{ annonce.titre }}</h5>
+            <div class="card-body">
+                <h3 class="card-title text-center my-5">{{ annonce.titre }}</h3>
 
-                <div id="carouselAvis" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        {% for image in annonce.images %}
-                        <div class="carousel-item {% if index == 0 %}active{% endif %}">
-                            <img class="" src={{image}} alt="photo de l'occasion">
+                <div class="d-flex justify-content-center">
+
+                    <div id="carousel{{ annonce.id }}" class="carousel slide" data-bs-ride=" carousel">
+                        <div class="carousel-inner ">
+                            {% for index, image in annonce.images|slice(0, 3) %}
+                            <div class=" carousel-item {% if index==0 %}active{% endif %}">
+                                <img src="{{ image }}" class="img-fluid border border-warning" alt="Image {{ index }}">
+                            </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ annonce.id }}"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ annonce.id }}"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
-
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselAvis"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselAvis"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
                 </div>
 
-                <div class="">
-                    <h3 class="text-center ">Description:</h3>
-                    <h6>Date de mise en ligne: {{annonce.created_at|date("d/m/Y")}}</h6>
+                <div class="d-flex justify-content-center flex-column align-content-center flex-wrap">
+                    <h6 class="text-center my-3">Date de mise en ligne: {{ annonce.created_at|date("d/m/Y") }}</h6>
+                    <h5 class="my-5">Description:</h5>
                     <ul>
                         <li>
-                            <p>Marque: {{annonce.marque}}</p>
+                            <p>Marque: {{ annonce.marque }}</p>
                         </li>
                         <li>
-                            <p>Annee: {{annonce.annee}}</p>
+                            <p>Modele: {{ annonce.modele }}</p>
                         </li>
                         <li>
-                            <p>Kilometres: {{annonce.kilometrage}}</p>
+                            <p>Energie: {{ annonce.carburant }}</p>
+                        </li>
+                        <li>
+                            <p>Annee: {{ annonce.annee }}</p>
+                        </li>
+                        <li>
+                            <p>Kilometres: {{ annonce.kilometrage }} km</p>
                         </li>
                     </ul>
-                    <p>{{annonce.prix}} euros</p>
-                    </li>
-                    <a class="btn " href="/annonces/{{ annonce.id }}">
-                        Détails
-                    </a>
+                    <h3 class="text-warning fs-1 text-center my-5 ">{{ annonce.prix }} €</h3>
+                    <a class="btn" href="/annonces/{{ annonce.id }}">Détails</a>
                 </div>
             </div>
         </div>
         {% endfor %}
+
     </section>
 
 

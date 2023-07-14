@@ -48,6 +48,7 @@ class AnnoncesModel extends Model
                     'description' => $row['description'],
                     'marque' => $row['marque'],
                     'modele' => $row['modele'],
+                    'annee' => $row['annee'],
                     'carburant' => $row['carburant'],
                     'prix' => $row['prix'],
                     'kilometrage' => $row['kilometrage'],

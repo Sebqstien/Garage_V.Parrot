@@ -33,9 +33,9 @@ class AvisController extends Controller
     public function index(): void
     {
         $avis = $this->avisModel->findBy('*', 'approved', 1);
-        $footerData = $this->getFooterData();
+
         $this->render('/avis/index.html.twig', [
-            'footerData' => $footerData,
+            'footerData' => $this->getFooterData(),
             'avis' => $avis
         ]);
     }

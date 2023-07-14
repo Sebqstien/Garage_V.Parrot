@@ -61,13 +61,6 @@ class DashboardController extends Controller
      */
     private AvisModel $avisModel;
 
-    /**
-     * Donnees a injecter dans le footer
-     *
-     * @var array
-     */
-    private array $footerData;
-
 
     /**
      * Constructeur
@@ -81,7 +74,6 @@ class DashboardController extends Controller
         $this->horairesModel = new HorairesModel();
         $this->garageModel = new GaragesModel();
         $this->avisModel = new AvisModel();
-        $this->footerData = $this->getFooterData();
     }
 
 
@@ -109,7 +101,7 @@ class DashboardController extends Controller
                 $params = [
                     'isAdmin' => true,
                     'user' => $user,
-                    'footerData' => $this->footerData
+                    'footerData' => $this->getFooterData()
                 ];
 
                 if ($_SERVER['REQUEST_URI'] === '/dashboard/users') {
@@ -138,14 +130,14 @@ class DashboardController extends Controller
                     'avis' => $avis,
                     'user' => $user,
                     'currentTab' => 'avis',
-                    'footerData' => $this->footerData
+                    'footerData' => $this->getFooterData()
                 ]);
             } else {
                 $this->render('/admin/dashboard.html.twig', [
                     'annonces' => $annonces,
                     'user' => $user,
                     'currentTab' => 'annonces',
-                    'footerData' => $this->footerData
+                    'footerData' => $this->getFooterData()
                 ]);
             }
         } else {
@@ -167,7 +159,7 @@ class DashboardController extends Controller
         if ($_SESSION['user']['is_admin'] === 1) {
             $user = ($id) ? $this->usersModel->find($id) : null;
             $this->render('/admin/form/userForm.html.twig', [
-                'footerData' => $this->footerData,
+                'footerData' => $this->getFooterData(),
                 'user' => $user
             ]);
         } else {
@@ -190,7 +182,7 @@ class DashboardController extends Controller
             $template = '/admin/form/annonceForm.html.twig';
             $this->render($template, [
                 'annonce' => $annonce,
-                'footerData' => $this->footerData
+                'footerData' => $this->getFooterData()
             ]);
         } else {
             $this->redirect('/', 301);
@@ -213,7 +205,7 @@ class DashboardController extends Controller
             $template = '/admin/form/serviceForm.html.twig';
             $this->render($template, [
                 'service' => $service,
-                'footerData' => $this->footerData,
+                'footerData' => $this->getFooterData()
             ]);
         } else {
             $this->redirect('/', 301);
@@ -236,7 +228,7 @@ class DashboardController extends Controller
             $template = '/admin/form/garageForm.html.twig';
             $this->render($template, [
                 'garage' => $garage,
-                'footerData' => $this->footerData,
+                'footerData' => $this->getFooterData()
             ]);
         } else {
             $this->redirect('/', 301);
@@ -259,7 +251,7 @@ class DashboardController extends Controller
             $template = '/admin/form/horairesForm.html.twig';
             $this->render($template, [
                 'horaires' => $horaires,
-                'footerData' => $this->footerData
+                'footerData' => $this->getFooterData()
             ]);
         } else {
             $this->redirect('/', 301);
@@ -280,7 +272,7 @@ class DashboardController extends Controller
             $template = '/admin/form/avisForm.html.twig';
             $this->render(
                 $template,
-                ['footerData' => $this->footerData]
+                ['footerData' => $this->getFooterData()]
             );
         } else {
             $this->redirect('/', 301);
@@ -302,7 +294,7 @@ class DashboardController extends Controller
             $this->render('admin/showImages.html.twig', [
                 'images' => $images,
                 'annonce' => $annonce,
-                'footerData' => $this->footerData
+                'footerData' => $this->getFooterData()
             ]);
         }
     }
@@ -319,7 +311,7 @@ class DashboardController extends Controller
             $avis = $this->avisModel->findBy('*', 'approved', 0);
             $this->render('admin/showAvis.html.twig', [
                 'avis' => $avis,
-                'footerData' => $this->footerData,
+                'footerData' => $this->getFooterData()
             ]);
         }
     }

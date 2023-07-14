@@ -15,7 +15,7 @@ class AnnoncesController extends Controller
      * @var AnnoncesModel
      */
     private AnnoncesModel $annoncesModel;
-    private array $footerData;
+
 
     /**
      * Constructeur
@@ -23,7 +23,6 @@ class AnnoncesController extends Controller
     public function __construct()
     {
         $this->annoncesModel = new AnnoncesModel;
-        $this->footerData = $this->getFooterData();
     }
 
 
@@ -37,7 +36,7 @@ class AnnoncesController extends Controller
         $annonces = $this->annoncesModel->findAllAnnoncesWithImages();
         $this->render('annonces/index.html.twig', [
             'annonces' => $annonces,
-            'footerData' => $this->footerData
+            'footerData' => $this->getFooterData()
         ]);
     }
 
@@ -53,7 +52,7 @@ class AnnoncesController extends Controller
 
         $this->render('annonces/show.html.twig', [
             'annonce' => $annonce,
-            'footerData' => $this->footerData
+            'footerData' => $this->getFooterData()
         ]);
     }
 
@@ -101,7 +100,7 @@ class AnnoncesController extends Controller
         }
 
         $this->render('/admin/form/annonceForm.html.twig', [
-            'footerData' => $this->footerData
+            'footerData' => $this->getFooterData()
         ]);
     }
 
@@ -148,7 +147,7 @@ class AnnoncesController extends Controller
 
         $this->render('/dashboard/annonces/edit/' . $annonce['id'], [
             'annonce' => $annonce,
-            'footerData' => $this->footerData
+            'footerData' => $this->getFooterData()
         ]);
     }
 
