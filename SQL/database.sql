@@ -1,5 +1,7 @@
 CREATE DATABASE IF NOT EXISTS garage_vparrot;
 
+USE garage_vparrot;
+
 
 CREATE TABLE `annonces` (
   `id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
