@@ -43,12 +43,7 @@ class LoginController extends Controller
 
                 $userArray = $this->usersModel->findOneByEmail($email);
 
-
-
                 if ($userArray && (password_verify($password, $userArray['password']))) {
-
-
-
                     unset($_SESSION['erreur']);
                     unset($_SESSION['success']);
                     $_SESSION['user'] = [

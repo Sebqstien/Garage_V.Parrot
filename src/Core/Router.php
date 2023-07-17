@@ -17,10 +17,10 @@ class Router
     private array $routes = [];
 
     /**
-     * Ajoute une route
+     * Ajoute une route à la liste des routes du routeur.
      *
-     * @param string $url
-     * @param string $controllerAction
+     * @param string $url               L'URL de la route.
+     * @param string $controllerAction  L'action du contrôleur associée à la route (au format "NomDuControleur@nomDeLAction").
      * @return void
      */
     public function addRoute(string $url, string $controllerAction): void
@@ -29,9 +29,10 @@ class Router
     }
 
     /**
-     * Demarre le routage
+     * Démarre le routage de l'application en fonction de l'URL actuelle.
      *
      * @return void
+     * @throws \Exception Si l'action spécifiée n'est pas trouvée dans le contrôleur correspondant.
      */
     public function start(): void
     {
@@ -60,10 +61,10 @@ class Router
     }
 
     /**
-     * decompose l'url en controller / methodes.
+     * Cherche une correspondance entre l'URL fournie et les routes enregistrées.
      *
-     * @param string $url
-     * @return array|null
+     * @param string $url L'URL à rechercher.
+     * @return array|null Les informations de la route correspondante sous forme de tableau associatif contenant les clés 'controllerAction' et 'params', ou null si aucune correspondance n'est trouvée.
      */
     private function matchRoute(string $url): array|null
     {
@@ -80,6 +81,13 @@ class Router
         return null;
     }
 
+
+    /**
+     * Convertit une route en expression régulière.
+     *
+     * @param string $route La route à convertir.
+     * @return string L'expression régulière correspondante.
+     */
     private function convertRouteToRegex($route)
     {
         $pattern = preg_replace('/\//', '\\/', $route);

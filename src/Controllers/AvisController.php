@@ -48,19 +48,21 @@ class AvisController extends Controller
      */
     public function createAvisAction(): void
     {
-        var_dump($_POST);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $nom = htmlspecialchars($_POST['nom']);
+            $commentaire_avis = htmlspecialchars($_POST['commentaire_avis']);
             $data = [
-                'nom' => $_POST['nom'] ?? '',
+                'nom' => $nom ?? '',
                 'note' => $_POST['note'] ?? '',
-                'commentaire_avis' => $_POST['commentaire_avis'] ?? ''
+                'commentaire_avis' => $commentaire_avis ?? ''
             ];
 
             $this->avisModel->createAvis($data);
-
             $this->redirect('/avis', 301);
+            $_SESSION['success'] = 'Votre Avis va etre pris en compte, merci pour votre retour.';
             exit();
         }
+        $_SESSION['erreur'] = 'Une erreur est survenue.';
     }
 
     /**
