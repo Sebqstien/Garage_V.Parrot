@@ -18,8 +18,8 @@ $router->addRoute("/annonces/{id}", 'AnnoncesController@show');
 $router->addRoute('/avis', 'AvisController@index');
 $router->addRoute("/contact", 'ContactController@index');
 $router->addRoute("/mail", 'ContactController@envoyerMailAction');
-$router->addRoute("/login", 'Logincontroller@login');
-$router->addRoute("/logout", 'Logincontroller@logout');
+$router->addRoute("/login", 'LoginController@login');
+$router->addRoute("/logout", 'LoginController@logout');
 
 
 //Dashboard Index
