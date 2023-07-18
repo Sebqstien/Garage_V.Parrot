@@ -68,7 +68,7 @@ abstract class Controller
      * @param array $files
      * @return array
      */
-    protected function upload(array $files): array
+    protected function upload(array $files): ?array
     {
         $uploaded = [];
 
