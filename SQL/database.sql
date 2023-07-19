@@ -113,7 +113,7 @@ INSERT INTO `services` (`id`, `titre`, `description`, `prix`) VALUES
 
 
 CREATE TABLE `users` (
-  `id` int NOT NULL,
+  `id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `nom` varchar(60) DEFAULT NULL,
   `prenom` varchar(60) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
@@ -128,6 +128,3 @@ INSERT INTO `users` (`id`, `nom`, `prenom`, `email`, `password`, `is_admin`) VAL
 
 ALTER TABLE `images`
   ADD CONSTRAINT `fk_images_voiture_id` FOREIGN KEY (`id_voiture`) REFERENCES `annonces` (`id`) ON DELETE CASCADE;
-
-
-COMMIT;
